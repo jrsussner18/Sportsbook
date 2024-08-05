@@ -1,0 +1,2 @@
+Day 1: Coming up with project idea -> sportsbook
+Goal for day 2: Jake create simple web scrape for sports data
