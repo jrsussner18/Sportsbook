@@ -31,7 +31,7 @@ chiefsSpreadOdds = spreadOdds[1]
 chiefsML = moneyline[1]
 
 # write to a text file
-with open("lines.txt", "w", newline="") as txtfile:
+with open("lines.txt", "w") as txtfile:
     txtfile.write(ravens.text + " vs. " + chiefs.text + "\n")
     txtfile.write(
         ravens.text
@@ -54,7 +54,7 @@ with open("lines.txt", "w", newline="") as txtfile:
         + "\n"
     )
 # write to a csv file
-with open("lines.csv", "w", newline="") as csvfile:
+with open("lines.csv", "w") as csvfile:
     csvWriter = csv.writer(csvfile)
     csvWriter.writerow([ravens.text, "vs.", chiefs.text])
     csvWriter.writerow(
