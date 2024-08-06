@@ -54,7 +54,7 @@ with open("lines.txt", "w", newline="", encoding="utf-8") as txtfile:
         + "\n"
     )
 # write to a csv file
-with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
+with open("lines.csv", "w", newline="") as csvfile:
     csvWriter = csv.writer(csvfile)
     csvWriter.writerow([ravens.text, "vs.", chiefs.text])
     csvWriter.writerow(
