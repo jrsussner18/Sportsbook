@@ -56,10 +56,21 @@ with open("lines.txt", "w", newline="", encoding="utf-8") as txtfile:
 # write to a csv file
 with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
     csvWriter = csv.writer(csvfile)
-    csvWriter.writerow([ravens.text, "vs.", chiefs.text])
-    csvWriter.writerow(
-        [ravens.text, ravensSpread.text, ravensSpreadOdds.text, ravensML.text]
-    )
-    csvWriter.writerow(
-        [chiefs.text, chiefsSpread.text, chiefsSpreadOdds.text, chiefsML.text]
-    )
+    # Writing the labels for each column
+    csvWriter.writerow(["Away Team","Home Team","Away Team Spread", "Away Team Spread Odds", "Away Team ML", "Home Team Spread", "Home Team Spread Odds", "Home Team ML"])
+    gameCounter=0
+    while gameCounter<len(teams):
+        # exampleList[gameCounter] is the example List of the away team and exampleList[gameCounter+1] is the home team
+        csvWriter.writerow([
+            teams[gameCounter].text,
+            teams[gameCounter + 1].text,
+            spreads[gameCounter].text,
+            spreadOdds[gameCounter].text,
+            moneyline[gameCounter].text,
+            spreads[gameCounter + 1].text,
+            spreadOdds[gameCounter + 1].text,
+            moneyline[gameCounter + 1].text
+        ])
+        gameCounter+=2  # Incrementing by 2 to correctly index the next game
+
+
