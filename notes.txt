@@ -4,3 +4,6 @@ Goal for day 2: Jake create simple web scrape for sports data
 For webscrapin sports data, used Draft kings because of simple layout of website. 
 Instead of creating a webscrape for all games, I thought it would be more doable for one day to create a sample of what one game would look like, then automate it with everyone else
 When running, it creates new csv files and txt files outside of the repo, i dont know why
+
+18 hour video for tkinter that I(Matthew) am currently going through at a fairly slow pace.
+https://www.youtube.com/watch?v=mop6g-c5HEY
