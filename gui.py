@@ -9,7 +9,7 @@ def labels_buttons(root, csv_file):
         next(read)
         for index, row in enumerate(read):
             #Need help here, I have index set to 0 but this is where I would like to generate user input
-            if index == game:
+            if index == 0:
                 ravens = Label(root, text=row[0]).grid(row=1, column=0, sticky=W)
                 cheifs = Label(root, text=row[1]).grid(row=2, column=0, sticky=W)
                 spread_away = Button(root, text=row[2]).grid(row=1, column=1)
