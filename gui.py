@@ -8,7 +8,7 @@ def labels_buttons(root, csv_file):
         read = csv.reader(file)
         next(read)
         for row, index in enumerate(read):
-            #Need help here, I have index set to 0 but this is where I would like to generate user input
+            #Need help here, I have row set to 0 but this is where I would like to generate user input
             if row == 0:
                 ravens = Label(root, text=index[0]).grid(row=1, column=0, sticky=W)
                 cheifs = Label(root, text=index[1]).grid(row=2, column=0, sticky=W)
