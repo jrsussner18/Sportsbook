@@ -7,3 +7,11 @@ When running, it creates new csv files and txt files outside of the repo, i dont
 
 18 hour video for tkinter that I(Matthew) am currently going through at a fairly slow pace.
 https://www.youtube.com/watch?v=mop6g-c5HEY
+
+(Sam) I started the GUI. The csv file and GUI are linked but I am still working on a few things...
+
+    - Getting user input and using that to populate the specific games and buttons 
+      (I have a start on this by getting the user to type in the Entry box, but I can't figure out how to convert that into an int)
+
+    - Also, the spacing is sorta messed up becasue I currently want my Entry box on line 10 and it is stuck right under the labels and 
+      buttons
