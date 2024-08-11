@@ -4,7 +4,7 @@ import csv
 root = Tk()
 
 def labels_buttons(root, csv_file):
-    with open(csv_file, "r") as file:
+    with open(csv_file, "r", encoding="utf-8") as file:
         read = csv.reader(file)
         next(read)
         for row, index in enumerate(read):
