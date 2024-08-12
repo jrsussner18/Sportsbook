@@ -3,13 +3,12 @@ import csv
 import math
 
 root = Tk()
-root.geometry('750x350')
+root.geometry("750x350")
 
 # create global variable for total odds so it doesn't reset
 total_odds = 1
 
 
-# function to grab the odds and calculate parlay odds
 def calcOdds(odds):
     global total_odds
     if odds[0] == "−":
@@ -25,72 +24,93 @@ def calcOdds(odds):
         final_odds = "+" + str(round(((total_odds - 1) * 100)))
 
 
-# function to grab user input from entry bar convert it to an integer and make it global
-# "week" can now be changed out with "row" in the function "labels_buttons"
 def userInput():
     global week
     week = int(user_input.get())
 
 
 def labels_buttons(root, csv_file):
+    global test
     with open(csv_file, "r", encoding="utf-8") as file:
         read = csv.reader(file)
         next(read)
         for x, index in enumerate(read):
+            # Need help here, I have row set to 0 but this is where I would like to generate user input
+            if index[-1] == test.split(" ")[1]:
+                # Initialize Labels
+                away_frame = Frame(root)
+                home_frame = Frame(root)
+                away = Label(away_frame, text=index[0])
+                home = Label(home_frame, text=index[1])
+                spread_away = Label(away_frame, text=index[2], fg="red", bg="blue")
+                spread_odds_away = Button(
+                    away_frame,
+                    text=index[3],
+                    fg="red",
+                    bg="blue",
+                    command=lambda: calcOdds(index[3]),
+                )
+                ml_away = Button(
+                    away_frame,
+                    text=index[4],
+                    fg="red",
+                    bg="blue",
+                    command=lambda: calcOdds(index[4]),
+                )
+                spread_home = Label(home_frame, text=index[5], fg="blue", bg="red")
+                spread_odds_home = Button(
+                    home_frame,
+                    text=index[6],
+                    fg="blue",
+                    bg="red",
+                    command=lambda: calcOdds(index[6]),
+                )
+                ml_home = Button(
+                    home_frame,
+                    text=index[7],
+                    fg="blue",
+                    bg="red",
+                    command=lambda: calcOdds(index[7]),
+                )
+                # Initialize Buttons
+                away.pack(side="left")
+                widgets.append(away)
+                home.pack(side="left")
+                widgets.append(home)
 
-            # Initialize Labels and Buttons
-            test = Button(root, text="test", fg="blue", bg="red", activebackground="red").grid(row=1, column=7)
-            away = Label(root, text=index[0])
-            home = Label(root, text=index[1])
-            spread_away = Label(root, text=index[2], fg="red", bg="blue")
-            spread_odds_away = Button(
-                root, text=index[3], fg="red", bg="blue", command=lambda: calcOdds(index[3])
-            )
-            ml_away = Button(root, text=index[4], fg="red", bg="blue", command=lambda: calcOdds(index[4]))
-            spread_home = Label(root, text=index[5], fg="blue", bg="red")
-            spread_odds_home = Button(
-                root, text=index[6], fg="blue", bg="red", command=lambda: calcOdds(index[6])
-            )
-            ml_home = Button(root, text=index[7], fg="blue", bg="red", command=lambda: calcOdds(index[7]))
+                spread_away.pack(side="left")
+                widgets.append(spread_away)
 
-            # Grid locations
-            
-            away.grid(row=(x * 2) + 1, column=0, sticky=W)
-            home.grid(row=(x * 2) + 2, column=0, sticky=W)
-            spread_away.grid(row=(x * 2) + 1, column=1)
-            spread_odds_away.grid(row=(x * 2) + 1, column=2)
-            ml_away.grid(row=(x * 2) + 1, column=3)
-            spread_home.grid(row=(x * 2) + 2, column=1)
-            spread_odds_home.grid(row=(x * 2) + 2, column=2)
-            ml_home.grid(row=(x * 2) + 2, column=3)
+                spread_odds_away.pack(side="left")
+                widgets.append(spread_odds_away)
+
+                ml_away.pack(side="left")
+                widgets.append(ml_away)
+
+                spread_home.pack(side="left")
+                widgets.append(spread_home)
+
+                spread_odds_home.pack(side="left")
+                widgets.append(spread_odds_home)
+
+                ml_home.pack(side="left")
+                widgets.append(ml_home)
+                away_frame.pack()
+                home_frame.pack()
+                widgets.append(away_frame)
+                widgets.append(home_frame)
 
 
+# # Initialize Labels
+# teams_title = Label(root, text="Teams")
+# spread_title = Label(root, text="Spread", width=10)
+# spread_odds_title = Label(root, text="Spread odds", width=10)
+# ml_title = Label(root, text="Money line", width=10)
 
-# Initialize Labels
-question = Label(root, text="What week do you want to bet on?")
-teams_title = Label(root, text="Teams")
-spread_title = Label(root, text="Spread", width=10)
-spread_odds_title = Label(root, text="Spread odds", width=10)
-ml_title = Label(root, text="Money line", width=10)
-
-# Initialize Entry box
-user_input = Entry(root, width=25)
-
-# Initialize Button
-submit = Button(root, text="Submit", command=userInput)
-
-# Putting widgets in the GUI
-# question.grid(row=10, column=0, sticky=W)
-teams_title.grid(row=0, column=0, sticky=W)
-spread_title.grid(row=0, column=1)
-spread_odds_title.grid(row=0, column=2)
-ml_title.grid(row=0, column=3)
-
-# user_input.grid(row=10, column=2, sticky=W)
-
-# submit.grid(row=10, column=3)
-
-
-labels_buttons(root, "lines.csv")
+# # Putting widgets in the GUI
+# teams_title.grid(row=0, column=0, sticky=W)
+# spread_title.grid(row=0, column=1)
+# spread_odds_title.grid(row=0, column=2)
+# ml_title.grid(row=0, column=3)
 
 root.mainloop()
