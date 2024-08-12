@@ -3,6 +3,7 @@ import csv
 
 root = Tk()
 root.geometry("750x350")
+root.title("Sportsbook")
 
 total_odds = 1
 
