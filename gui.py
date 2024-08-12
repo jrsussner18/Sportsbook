@@ -30,8 +30,8 @@ def labels_buttons(root, csv_file):
                 ml_home = Button(root, text=index[7])
 
                 # Initialize Buttons
-                ravens.grid(row=1, column=1, sticky=W)
-                cheifs.grid(row=2, column=1, sticky=W)
+                ravens.grid(row=1, column=0, sticky=W)
+                cheifs.grid(row=2, column=0, sticky=W)
                 spread_away.grid(row=1, column=1)
                 spread_odds_away.grid(row=1, column=2)
                 ml_away.grid(row=1, column=3)
