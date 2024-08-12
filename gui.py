@@ -3,7 +3,7 @@ import csv
 import math
 
 root = Tk()
-
+root.geometry('750x350')
 
 # create global variable for total odds so it doesn't reset
 total_odds = 1
@@ -37,24 +37,24 @@ def labels_buttons(root, csv_file):
         read = csv.reader(file)
         next(read)
         for x, index in enumerate(read):
-            # Need help here, I have row set to 0 but this is where I would like to generate user input
-            # if row == 0:
 
-            # Initialize Labels
+            # Initialize Labels and Buttons
+            test = Button(root, text="test", fg="blue", bg="red", activebackground="red").grid(row=1, column=7)
             away = Label(root, text=index[0])
             home = Label(root, text=index[1])
-            spread_away = Label(root, text=index[2])
+            spread_away = Label(root, text=index[2], fg="red", bg="blue")
             spread_odds_away = Button(
-                root, text=index[3], command=lambda: calcOdds(index[3])
+                root, text=index[3], fg="red", bg="blue", command=lambda: calcOdds(index[3])
             )
-            ml_away = Button(root, text=index[4], command=lambda: calcOdds(index[4]))
-            spread_home = Label(root, text=index[5])
+            ml_away = Button(root, text=index[4], fg="red", bg="blue", command=lambda: calcOdds(index[4]))
+            spread_home = Label(root, text=index[5], fg="blue", bg="red")
             spread_odds_home = Button(
-                root, text=index[6], command=lambda: calcOdds(index[6])
+                root, text=index[6], fg="blue", bg="red", command=lambda: calcOdds(index[6])
             )
-            ml_home = Button(root, text=index[7], command=lambda: calcOdds(index[7]))
+            ml_home = Button(root, text=index[7], fg="blue", bg="red", command=lambda: calcOdds(index[7]))
 
-            # Initialize Buttons
+            # Grid locations
+            
             away.grid(row=(x * 2) + 1, column=0, sticky=W)
             home.grid(row=(x * 2) + 2, column=0, sticky=W)
             spread_away.grid(row=(x * 2) + 1, column=1)
@@ -63,6 +63,7 @@ def labels_buttons(root, csv_file):
             spread_home.grid(row=(x * 2) + 2, column=1)
             spread_odds_home.grid(row=(x * 2) + 2, column=2)
             ml_home.grid(row=(x * 2) + 2, column=3)
+
 
 
 # Initialize Labels
