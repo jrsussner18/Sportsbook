@@ -20,45 +20,7 @@ moneyline = soup.find_all(
     "span", class_="sportsbook-odds american no-margin default-color"
 )
 
-## CHANGE ##
-randos = soup.find_all("th", class_="always-left column-header")
-for rando in randos:
-    print(rando.text)
-## CHANGE##
 
-# store names and odds into variables for same
-ravens = teams[0]
-ravensSpread = spreads[0]
-ravensSpreadOdds = spreadOdds[0]
-ravensML = moneyline[0]
-chiefs = teams[1]
-chiefsSpread = spreads[2]
-chiefsSpreadOdds = spreadOdds[1]
-chiefsML = moneyline[1]
-
-# write to a text file
-with open("lines.txt", "w", newline="", encoding="utf-8") as txtfile:
-    txtfile.write(ravens.text + " vs. " + chiefs.text + "\n")
-    txtfile.write(
-        ravens.text
-        + ": "
-        + ravensSpread.text
-        + " -> "
-        + ravensSpreadOdds.text
-        + ", ML -> "
-        + ravensML.text
-        + "\n"
-    )
-    txtfile.write(
-        chiefs.text
-        + ": "
-        + chiefsSpread.text
-        + " -> "
-        + chiefsSpreadOdds.text
-        + ", ML -> "
-        + chiefsML.text
-        + "\n"
-    )
 # write to a csv file
 with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
     csvWriter = csv.writer(csvfile)
@@ -73,9 +35,12 @@ with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
             "Home Team Spread",
             "Home Team Spread Odds",
             "Home Team ML",
+            "Week"
         ]
     )
     gameCounter = 0
+    week=1
+    weekArray=[30,62,94,126,154,182,212,244,274,302,330,356,388,414,446,478,510,542]
     while gameCounter < len(teams):
         # exampleList[gameCounter] is the example List of the away team and exampleList[gameCounter+1] is the home team
         csvWriter.writerow(
@@ -86,8 +51,11 @@ with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
                 spreadOdds[gameCounter].text,
                 moneyline[gameCounter].text,
                 spreads[gameCounter + 1].text,
-                spreadOdds[gameCounter + 1].text,
+                spreadOdds[gameCounter + 2].text,
                 moneyline[gameCounter + 1].text,
+                week
             ]
         )
+        if gameCounter in weekArray:
+            week+=1
         gameCounter += 2  # Incrementing by 2 to correctly index the next game
