@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import ttk
 import csv
 
 root = Tk()
@@ -9,7 +10,7 @@ total_odds = 1
 
 
 # function to calculate the odds of a parlay
-def calcOdds(odds,button1,button2):
+def calcOdds(odds, button1, button2):
     global total_odds
     if odds[0] == "−":
         curr_odd = int(odds[1:])
@@ -22,12 +23,13 @@ def calcOdds(odds,button1,button2):
         final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
         final_odds = "+" + str(round((total_odds - 1) * 100))
-    button2.config(bg='green')
+    button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
 
 
 widgets = []
+
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
 def change(selection):
@@ -35,6 +37,7 @@ def change(selection):
     test = selection
     clear_widgets()
     labels_buttons(root, "lines.csv")
+
 
 # Function that deletes all widgets from the list
 def clear_widgets():
@@ -77,8 +80,9 @@ def labels_buttons(root, csv_file):
         read = csv.reader(file)
         next(read)
         # Add Labels and then packing and appending them to a list(widgets) so that they can be deleted later
-        titleFrame=Frame(root)
-        teams_title = Label(titleFrame, text="Teams",width=15)
+
+        titleFrame = Frame(root)
+        teams_title = Label(titleFrame, text="Teams", width=15)
         spread_title = Label(titleFrame, text="Spread", width=10)
         spread_odds_title = Label(titleFrame, text="Spread odds", width=10)
         ml_title = Label(titleFrame, text="Money line", width=10)
@@ -97,43 +101,55 @@ def labels_buttons(root, csv_file):
                 # Initialize Labels
                 away_frame = Frame(root)
                 home_frame = Frame(root)
-                away = Label(away_frame, text=index[0],width=15)
-                home = Label(home_frame, text=index[1],width=15)
-                spread_away = Label(away_frame, text=index[2], fg="red", bg="blue",width=10)
+                away = Label(away_frame, text=index[0], width=15)
+                home = Label(home_frame, text=index[1], width=15)
+                spread_away = Label(
+                    away_frame, text=index[2], fg="red", bg="blue", width=10
+                )
                 spread_odds_away = Button(
-                    away_frame,
-                    text=index[3],
-                    fg="red",
-                    bg="blue",
-                    width=10
+                    away_frame, text=index[3], fg="red", bg="blue", width=10
                 )
                 ml_away = Button(
-                    away_frame,
-                    text=index[4],
-                    fg="red",
-                    bg="blue",
-                    width=10
+                    away_frame, text=index[4], fg="red", bg="blue", width=10
                 )
-                spread_home = Label(home_frame, text=index[5], fg="blue", bg="red",width=10)
+                spread_home = Label(
+                    home_frame, text=index[5], fg="blue", bg="red", width=10
+                )
                 spread_odds_home = Button(
-                    home_frame,
-                    text=index[6],
-                    fg="blue",
-                    bg="red",
-                    width=10
+                    home_frame, text=index[6], fg="blue", bg="red", width=10
                 )
                 ml_home = Button(
-                    home_frame,
-                    text=index[7],
-                    fg="blue",
-                    bg="red",
-                    width=10
+                    home_frame, text=index[7], fg="blue", bg="red", width=10
                 )
 
-                spread_odds_away.config(command=lambda odds=index[3], opp_button=spread_odds_home, curr_button=spread_odds_away: calcOdds(odds, opp_button,curr_button))
-                ml_away.config(command=lambda odds=index[4], opp_button=ml_home, curr_button=ml_away: calcOdds(odds, opp_button,curr_button))
-                spread_odds_home.config(command=lambda odds=index[6], opp_button=spread_odds_away, curr_button=spread_odds_home: calcOdds(odds, opp_button,curr_button))
-                ml_home.config(command=lambda odds=index[7], opp_button=ml_away, curr_button=ml_home: calcOdds(odds, opp_button,curr_button))
+                spread_odds_away.config(
+                    command=lambda odds=index[
+                        3
+                    ], opp_button=spread_odds_home, curr_button=spread_odds_away: calcOdds(
+                        odds, opp_button, curr_button
+                    )
+                )
+                ml_away.config(
+                    command=lambda odds=index[
+                        4
+                    ], opp_button=ml_home, curr_button=ml_away: calcOdds(
+                        odds, opp_button, curr_button
+                    )
+                )
+                spread_odds_home.config(
+                    command=lambda odds=index[
+                        6
+                    ], opp_button=spread_odds_away, curr_button=spread_odds_home: calcOdds(
+                        odds, opp_button, curr_button
+                    )
+                )
+                ml_home.config(
+                    command=lambda odds=index[
+                        7
+                    ], opp_button=ml_away, curr_button=ml_home: calcOdds(
+                        odds, opp_button, curr_button
+                    )
+                )
                 # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
                 away.pack(side="left")
                 widgets.append(away)
@@ -165,5 +181,6 @@ def labels_buttons(root, csv_file):
                 spaceFrame = Frame(root, height=10)
                 spaceFrame.pack()
                 widgets.append(spaceFrame)
+
 
 root.mainloop()
