@@ -28,17 +28,29 @@ def labels_buttons(root, csv_file):
                 ml_home = Button(root, text=index[7]).grid(row=2, column=3)
 
 
-question = Label(root, text="What game do you want to bet on?").grid(
-    row=10, column=0, sticky=W
-)
+# Initialize Labels
+question = Label(root, text="What game do you want to bet on?")
+teams_title = Label(root, text="Teams")
+spread_title = Label(root, text="Spread", width=10)
+spread_odds_title = Label(root, text="Spread odds", width=10)
+ml_title = Label(root, text="Money line", width=10)
+
+# Initialize Entry box
 user_input = Entry(root, width=25)
-user_input.grid(row=10, column=2, sticky=W)
+
+# Initialize Button
 submit = Button(root, text="Submit", command=userInput)
+
+# Putting widgets in the GUI
+question.grid(row=10, column=0, sticky=W)
+teams_title.grid(row=0, column=0, sticky=W)
+spread_title.grid(row=0, column=1)
+spread_odds_title.grid(row=0, column=2)
+ml_title.grid(row=0, column=3)
+
+user_input.grid(row=10, column=2, sticky=W)
+
 submit.grid(row=10, column=3)
-teams_title = Label(root, text="Teams").grid(row=0, column=0, sticky=W)
-spread_title = Label(root, text="Spread", width=10).grid(row=0, column=1)
-spread_odds_title = Label(root, text="Spread odds", width=10).grid(row=0, column=2)
-ml_title = Label(root, text="Money line", width=10).grid(row=0, column=3)
 
 
 labels_buttons(root, "lines.csv")
