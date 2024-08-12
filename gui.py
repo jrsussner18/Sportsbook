@@ -19,7 +19,7 @@ def labels_buttons(root, csv_file):
             # Need help here, I have row set to 0 but this is where I would like to generate user input
             if row == 0:
 
-                #Initialize Labels
+                # Initialize Labels
                 ravens = Label(root, text=index[0])
                 cheifs = Label(root, text=index[1])
                 spread_away = Button(root, text=index[2])
@@ -29,7 +29,7 @@ def labels_buttons(root, csv_file):
                 spread_odds_home = Button(root, text=index[6])
                 ml_home = Button(root, text=index[7])
 
-                #Initialize Buttons
+                # Initialize Buttons
                 ravens.grid(row=1, column=1, sticky=W)
                 cheifs.grid(row=2, column=1, sticky=W)
                 spread_away.grid(row=1, column=1)
