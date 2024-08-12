@@ -6,6 +6,10 @@ root = Tk()
 
 # function to grab user input from entry bar convert it to an integer and make it global
 # "week" can now be changed out with "row" in the function "labels_buttons"
+def calcOdds():
+    user_input.insert("+100")
+
+
 def userInput():
     global week
     week = int(user_input.get())
@@ -22,12 +26,12 @@ def labels_buttons(root, csv_file):
             # Initialize Labels
             away = Label(root, text=index[0])
             home = Label(root, text=index[1])
-            spread_away = Button(root, text=index[2])
-            spread_odds_away = Button(root, text=index[3])
-            ml_away = Button(root, text=index[4])
-            spread_home = Button(root, text=index[5])
-            spread_odds_home = Button(root, text=index[6])
-            ml_home = Button(root, text=index[7])
+            spread_away = Label(root, text=index[2])
+            spread_odds_away = Button(root, text=index[3], command=calcOdds)
+            ml_away = Button(root, text=index[4], command=calcOdds)
+            spread_home = Label(root, text=index[5])
+            spread_odds_home = Button(root, text=index[6], command=calcOdds)
+            ml_home = Button(root, text=index[7], command=calcOdds)
 
             # Initialize Buttons
             away.grid(row=(x * 2) + 1, column=0, sticky=W)
