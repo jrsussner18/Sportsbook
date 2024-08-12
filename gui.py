@@ -2,7 +2,7 @@ from tkinter import *
 import csv
 
 root = Tk()
-
+root.geometry('750x350')
 
 # function to grab user input from entry bar convert it to an integer and make it global
 # "week" can now be changed out with "row" in the function "labels_buttons"
@@ -16,20 +16,20 @@ def labels_buttons(root, csv_file):
         read = csv.reader(file)
         next(read)
         for x, index in enumerate(read):
-            # Need help here, I have row set to 0 but this is where I would like to generate user input
-            # if row == 0:
 
-            # Initialize Labels
+            # Initialize Labels and Buttons
+            test = Button(root, text="test", fg="blue", bg="red", activebackground="red").grid(row=1, column=7)
             away = Label(root, text=index[0])
             home = Label(root, text=index[1])
-            spread_away = Button(root, text=index[2])
-            spread_odds_away = Button(root, text=index[3])
-            ml_away = Button(root, text=index[4])
-            spread_home = Button(root, text=index[5])
-            spread_odds_home = Button(root, text=index[6])
-            ml_home = Button(root, text=index[7])
+            spread_away = Button(root, text=index[2], fg="red", bg="blue")
+            spread_odds_away = Button(root, text=index[3], fg="red", bg="blue")
+            ml_away = Button(root, text=index[4], fg="red", bg="blue")
+            spread_home = Button(root, text=index[5], fg="blue", bg="red")
+            spread_odds_home = Button(root, text=index[6], fg="blue", bg="red")
+            ml_home = Button(root, text=index[7], fg="blue", bg="red")
 
-            # Initialize Buttons
+            # Grid locations
+            
             away.grid(row=(x * 2) + 1, column=0, sticky=W)
             home.grid(row=(x * 2) + 2, column=0, sticky=W)
             spread_away.grid(row=(x * 2) + 1, column=1)
@@ -38,6 +38,8 @@ def labels_buttons(root, csv_file):
             spread_home.grid(row=(x * 2) + 2, column=1)
             spread_odds_home.grid(row=(x * 2) + 2, column=2)
             ml_home.grid(row=(x * 2) + 2, column=3)
+
+    
 
 
 
