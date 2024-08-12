@@ -67,7 +67,7 @@ with open("lines.csv", "w", newline="", encoding="utf-8") as csvfile:
             spreads[gameCounter].text,
             spreadOdds[gameCounter].text,
             moneyline[gameCounter].text,
-            spreads[gameCounter + 1].text,
+            spreads[gameCounter + 2].text,
             spreadOdds[gameCounter + 1].text,
             moneyline[gameCounter + 1].text
         ])
