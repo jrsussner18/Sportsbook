@@ -1,35 +1,32 @@
 from tkinter import *
 import csv
+import math
 
 root = Tk()
 
 
-# function to grab user input from entry bar convert it to an integer and make it global
-# "week" can now be changed out with "row" in the function "labels_buttons"
+# create global variable for total odds so it doesn't reset
 total_odds = 1
 
 
+# function to grab the odds and calculate parlay odds
 def calcOdds(odds):
     global total_odds
-    print(odds)
-    print(odds[0])
     if odds[0] == "−":
         curr_odd = int(odds[1:])
         curr_odd = 1 + (100 / curr_odd)
-        print(curr_odd)
     else:
         curr_odd = int(odds[1:])
         curr_odd = 1 + (curr_odd / 100)
-        print(curr_odd)
     total_odds = total_odds * curr_odd
-    print(total_odds)
-    if total_odds >= 1:
-        final_odds = "-" + str((100 / (total_odds - 1)))
+    if total_odds <= 2:
+        final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
-        final_odds = "+" + str(((total_odds - 1) * 100))
-    print(final_odds)
+        final_odds = "+" + str(round(((total_odds - 1) * 100)))
 
 
+# function to grab user input from entry bar convert it to an integer and make it global
+# "week" can now be changed out with "row" in the function "labels_buttons"
 def userInput():
     global week
     week = int(user_input.get())
