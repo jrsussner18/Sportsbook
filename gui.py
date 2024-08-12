@@ -33,7 +33,7 @@ question = Label(root, text="What game do you want to bet on?").grid(
 )
 user_input = Entry(root, width=25)
 user_input.grid(row=10, column=2, sticky=W)
-submit = Button(root, text="Submit", command=lambda: userInput)
+submit = Button(root, text="Submit", command=userInput)
 submit.grid(row=10, column=3)
 teams_title = Label(root, text="Teams").grid(row=0, column=0, sticky=W)
 spread_title = Label(root, text="Spread", width=10).grid(row=0, column=1)
