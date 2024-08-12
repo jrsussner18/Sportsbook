@@ -40,8 +40,6 @@ def labels_buttons(root, csv_file):
             ml_home.grid(row=(x * 2) + 2, column=3)
 
 
-scrollbar = Scrollbar(root)
-scrollbar.grid(row=0, column=4, rowspan=11, sticky="ns")
 
 # Initialize Labels
 question = Label(root, text="What week do you want to bet on?")
