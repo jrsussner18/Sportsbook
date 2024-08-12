@@ -8,7 +8,7 @@ root = Tk()
 # "week" can now be changed out with "row" in the function "labels_buttons"
 def userInput():
     global week
-    week = user_input.get()
+    week = int(user_input.get())
 
 
 def labels_buttons(root, csv_file):
@@ -33,8 +33,8 @@ question = Label(root, text="What game do you want to bet on?").grid(
 )
 user_input = Entry(root, width=25)
 user_input.grid(row=10, column=2, sticky=W)
-submit = Button(root, text="Submit").grid(row=10, column=3, command=userInput())
-
+submit = Button(root, text="Submit", command=lambda: userInput())
+submit.grid(row=10, column=3)
 teams_title = Label(root, text="Teams").grid(row=0, column=0, sticky=W)
 spread_title = Label(root, text="Spread", width=10).grid(row=0, column=1)
 spread_odds_title = Label(root, text="Spread odds", width=10).grid(row=0, column=2)
