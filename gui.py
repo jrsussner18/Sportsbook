@@ -41,7 +41,7 @@ def labels_buttons(root, csv_file):
 
 
 scrollbar = Scrollbar(root)
-scrollbar.pack(side=RIGHT, fill=Y)
+scrollbar.grid(row=0, column=4, rowspan=11, sticky="ns")
 
 # Initialize Labels
 question = Label(root, text="What week do you want to bet on?")
