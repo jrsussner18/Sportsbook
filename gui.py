@@ -23,12 +23,6 @@ def calcOdds(odds):
         final_odds = "+" + str(round((total_odds - 1) * 100))
 
 
-# function to grab user input from entry bar convert it to an integer and make it global
-# "week" can now be changed out with "row" in the function "labels_buttons"
-# def userInput():
-#     global week
-#     week = int(user_input.get())
-
 widgets = []
 
 
@@ -144,17 +138,5 @@ def labels_buttons(root, csv_file):
                 widgets.append(away_frame)
                 widgets.append(home_frame)
 
-
-# # Initialize Labels
-# teams_title = Label(root, text="Teams")
-# spread_title = Label(root, text="Spread", width=10)
-# spread_odds_title = Label(root, text="Spread odds", width=10)
-# ml_title = Label(root, text="Money line", width=10)
-
-# # Putting widgets in the GUI
-# teams_title.grid(row=0, column=0, sticky=W)
-# spread_title.grid(row=0, column=1)
-# spread_odds_title.grid(row=0, column=2)
-# ml_title.grid(row=0, column=3)
 
 root.mainloop()
