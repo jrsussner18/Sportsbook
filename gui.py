@@ -8,7 +8,7 @@ total_odds = 1
 
 
 # function to calculate the odds of a parlay
-def calcOdds(odds):
+def calcOdds(odds,button1,button2):
     global total_odds
     if odds[0] == "−":
         curr_odd = int(odds[1:])
@@ -21,6 +21,9 @@ def calcOdds(odds):
         final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
         final_odds = "+" + str(round((total_odds - 1) * 100))
+    button2.config(bg='green')
+    button1.config(state=DISABLED)
+    button2.config(state=DISABLED)
 
 
 widgets = []
@@ -37,6 +40,7 @@ def clear_widgets():
     for widget in widgets:
         widget.pack_forget()
     widgets.clear()
+
 
 # List of different weeks to choose from for the option Menu
 options = [
@@ -100,7 +104,6 @@ def labels_buttons(root, csv_file):
                     text=index[3],
                     fg="red",
                     bg="blue",
-                    command=lambda odds=index[3]: calcOdds(odds),
                     width=10
                 )
                 ml_away = Button(
@@ -108,7 +111,6 @@ def labels_buttons(root, csv_file):
                     text=index[4],
                     fg="red",
                     bg="blue",
-                    command=lambda odds=index[4]: calcOdds(odds),
                     width=10
                 )
                 spread_home = Label(home_frame, text=index[5], fg="blue", bg="red",width=10)
@@ -117,7 +119,6 @@ def labels_buttons(root, csv_file):
                     text=index[6],
                     fg="blue",
                     bg="red",
-                    command=lambda odds=index[6]: calcOdds(odds),
                     width=10
                 )
                 ml_home = Button(
@@ -125,9 +126,13 @@ def labels_buttons(root, csv_file):
                     text=index[7],
                     fg="blue",
                     bg="red",
-                    command=lambda odds=index[7]: calcOdds(odds),
                     width=10
                 )
+
+                spread_odds_away.config(command=lambda odds=index[3], opp_button=spread_odds_home, curr_button=spread_odds_away: calcOdds(odds, opp_button,curr_button))
+                ml_away.config(command=lambda odds=index[4], opp_button=ml_home, curr_button=ml_away: calcOdds(odds, opp_button,curr_button))
+                spread_odds_home.config(command=lambda odds=index[6], opp_button=spread_odds_away, curr_button=spread_odds_home: calcOdds(odds, opp_button,curr_button))
+                ml_home.config(command=lambda odds=index[7], opp_button=ml_away, curr_button=ml_home: calcOdds(odds, opp_button,curr_button))
                 # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
                 away.pack(side="left")
                 widgets.append(away)
