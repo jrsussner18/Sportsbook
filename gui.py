@@ -6,6 +6,30 @@ root.geometry('750x350')
 
 # function to grab user input from entry bar convert it to an integer and make it global
 # "week" can now be changed out with "row" in the function "labels_buttons"
+total_odds = 1
+
+
+def calcOdds(odds):
+    global total_odds
+    print(odds)
+    print(odds[0])
+    if odds[0] == "−":
+        curr_odd = int(odds[1:])
+        curr_odd = 1 + (100 / curr_odd)
+        print(curr_odd)
+    else:
+        curr_odd = int(odds[1:])
+        curr_odd = 1 + (curr_odd / 100)
+        print(curr_odd)
+    total_odds = total_odds * curr_odd
+    print(total_odds)
+    if total_odds >= 1:
+        final_odds = "-" + str((100 / (total_odds - 1)))
+    else:
+        final_odds = "+" + str(((total_odds - 1) * 100))
+    print(final_odds)
+
+
 def userInput():
     global week
     week = int(user_input.get())
@@ -21,12 +45,16 @@ def labels_buttons(root, csv_file):
             test = Button(root, text="test", fg="blue", bg="red", activebackground="red").grid(row=1, column=7)
             away = Label(root, text=index[0])
             home = Label(root, text=index[1])
-            spread_away = Button(root, text=index[2], fg="red", bg="blue")
-            spread_odds_away = Button(root, text=index[3], fg="red", bg="blue")
-            ml_away = Button(root, text=index[4], fg="red", bg="blue")
-            spread_home = Button(root, text=index[5], fg="blue", bg="red")
-            spread_odds_home = Button(root, text=index[6], fg="blue", bg="red")
-            ml_home = Button(root, text=index[7], fg="blue", bg="red")
+            spread_away = Label(root, text=index[2], fg="red", bg="blue")
+            spread_odds_away = Button(
+                root, text=index[3], fg="red", bg="blue", command=lambda: calcOdds(index[3])
+            )
+            ml_away = Button(root, text=index[4], fg="red", bg="blue", command=lambda: calcOdds(index[4]))
+            spread_home = Label(root, text=index[5], fg="blue", bg="red")
+            spread_odds_home = Button(
+                root, text=index[6], fg="blue", bg="red", command=lambda: calcOdds(index[6])
+            )
+            ml_home = Button(root, text=index[7], fg="blue", bg="red", command=lambda: calcOdds(index[7]))
 
             # Grid locations
             
@@ -38,8 +66,6 @@ def labels_buttons(root, csv_file):
             spread_home.grid(row=(x * 2) + 2, column=1)
             spread_odds_home.grid(row=(x * 2) + 2, column=2)
             ml_home.grid(row=(x * 2) + 2, column=3)
-
-    
 
 
 
