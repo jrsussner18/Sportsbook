@@ -188,9 +188,15 @@ def rightFrameWork(rightFrame):
     idkWhatToNameThisLabel.pack()
     entryAmt=IntVar()
     dollarEntry=Entry(inputFrame,textvariable=entryAmt)
-    button=ttk.Button(inputFrame,text="Submit")
+    button=Button(inputFrame,text="Submit")
     dollarEntry.pack(side='left')
     button.pack(side='left')
+    widgets.append(frameTitle)
+    widgets.append(oddsFrame)
+    widgets.append(inputFrame)
+    widgets.append(idkWhatToNameThisLabel)
+    widgets.append(dollarEntry)
+    widgets.append(button)
 
 def labelsButtons(root, csv_file):
     global test
@@ -204,7 +210,9 @@ def labelsButtons(root, csv_file):
         rightFrame.pack(side=LEFT,fill=BOTH, expand=True)
         leftFrameWork(leftFrame,read)
         rightFrameWork(rightFrame)
+        widgets.append(leftFrame)
+        widgets.append(rightFrame)
 
-        
+
 
 root.mainloop()
