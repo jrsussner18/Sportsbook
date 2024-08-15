@@ -20,7 +20,7 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
     else:
         curr_odd = int(odds[1:])
         curr_odd = 1 + (curr_odd / 100)
-    total_odds = total_odds * curr_odd
+    total_odds *= curr_odd
     if total_odds <= 2:
         final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
@@ -77,43 +77,53 @@ drop = OptionMenu(root, clicked, *options, command=change)
 drop.pack()
 
 
-def leftFrameWork(leftFrame, read):
-    titleFrame = Frame(leftFrame)
-    teams_title = Label(titleFrame, text="Teams", width=15)
-    spread_title = Label(titleFrame, text="Spread", width=10)
-    spread_odds_title = Label(titleFrame, text="Spread odds", width=10)
-    ml_title = Label(titleFrame, text="Money line", width=10)
-    titleFrame.pack()
-    teams_title.pack(side=LEFT)
-    spread_title.pack(side=LEFT)
-    spread_odds_title.pack(side=LEFT)
-    ml_title.pack(side=LEFT)
-    widgets.append(titleFrame)
-    widgets.append(teams_title)
-    widgets.append(spread_title)
-    widgets.append(spread_odds_title)
-    widgets.append(ml_title)
-    for x, index in enumerate(read):
-        if index[-1] == test.split(" ")[1]:
-            # Initialize Labels
-            away_frame = Frame(leftFrame)
-            home_frame = Frame(leftFrame)
-            away = Label(away_frame, text=index[0], width=15)
-            home = Label(home_frame, text=index[1], width=15)
-            spread_away = Label(
-                away_frame, text=index[2], fg="red", bg="blue", width=10
-            )
-            spread_odds_away = Button(
-                away_frame, text=index[3], fg="red", bg="blue", width=10
-            )
-            ml_away = Button(away_frame, text=index[4], fg="red", bg="blue", width=10)
-            spread_home = Label(
-                home_frame, text=index[5], fg="blue", bg="red", width=10
-            )
-            spread_odds_home = Button(
-                home_frame, text=index[6], fg="blue", bg="red", width=10
-            )
-            ml_home = Button(home_frame, text=index[7], fg="blue", bg="red", width=10)
+def leftFrameWork(root, csv_file):
+    global test
+    with open(csv_file, "r", encoding="utf-8") as file:
+        read = csv.reader(file)
+        next(read)
+        # Add Labels and then packing and appending them to a list(widgets) so that they can be deleted later
+
+        titleFrame = Frame(root)
+        teams_title = Label(titleFrame, text="Teams", width=15)
+        spread_title = Label(titleFrame, text="Spread", width=10)
+        spread_odds_title = Label(titleFrame, text="Spread odds", width=10)
+        ml_title = Label(titleFrame, text="Money line", width=10)
+        titleFrame.pack()
+        teams_title.pack(side=LEFT)
+        spread_title.pack(side=LEFT)
+        spread_odds_title.pack(side=LEFT)
+        ml_title.pack(side=LEFT)
+        widgets.append(titleFrame)
+        widgets.append(teams_title)
+        widgets.append(spread_title)
+        widgets.append(spread_odds_title)
+        widgets.append(ml_title)
+        for x, index in enumerate(read):
+            if index[-1] == test.split(" ")[1]:
+                # Initialize Labels
+                away_frame = Frame(root)
+                home_frame = Frame(root)
+                away = Label(away_frame, text=index[0], width=15)
+                home = Label(home_frame, text=index[1], width=15)
+                spread_away = Label(
+                    away_frame, text=index[2], fg="red", bg="blue", width=10
+                )
+                spread_odds_away = Button(
+                    away_frame, text=index[3], fg="red", bg="blue", width=10
+                )
+                ml_away = Button(
+                    away_frame, text=index[4], fg="red", bg="blue", width=10
+                )
+                spread_home = Label(
+                    home_frame, text=index[5], fg="blue", bg="red", width=10
+                )
+                spread_odds_home = Button(
+                    home_frame, text=index[6], fg="blue", bg="red", width=10
+                )
+                ml_home = Button(
+                    home_frame, text=index[7], fg="blue", bg="red", width=10
+                )
 
             spread_odds_away.config(
                 command=lambda odds=index[
@@ -190,29 +200,19 @@ def rightFrameWork(rightFrame):
         inputFrame, text="How many dollars would you like to put in?", anchor="se"
     )
     idkWhatToNameThisLabel.pack()
-<<<<<<< HEAD
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
     button = ttk.Button(inputFrame, text="Submit")
     dollarEntry.pack(side="left")
     button.pack(side="left")
-=======
-    entryAmt=IntVar()
-    dollarEntry=Entry(inputFrame,textvariable=entryAmt)
-    button=Button(inputFrame,text="Submit")
-    dollarEntry.pack(side='left')
-    button.pack(side='left')
->>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(inputFrame)
     widgets.append(idkWhatToNameThisLabel)
-<<<<<<< HEAD
 
-=======
     widgets.append(dollarEntry)
     widgets.append(button)
->>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
+
 
 def labelsButtons(root, csv_file):
     global test
