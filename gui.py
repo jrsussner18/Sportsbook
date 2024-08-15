@@ -10,7 +10,7 @@ total_odds = 1
 
 
 # function to calculate the odds of a parlay
-def calcOdds(odds, button1, button2):
+def calcOdds(odds, button1, button2, bet_name):
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
     global total_odds
@@ -28,6 +28,7 @@ def calcOdds(odds, button1, button2):
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
+    oddsTextArea.insert(END, f"{bet_name}: {odds}\n")
 
 
 widgets = []
@@ -75,7 +76,8 @@ clicked.set(options[0])
 drop = OptionMenu(root, clicked, *options, command=change)
 drop.pack()
 
-def leftFrameWork(leftFrame,read):
+
+def leftFrameWork(leftFrame, read):
     titleFrame = Frame(leftFrame)
     teams_title = Label(titleFrame, text="Teams", width=15)
     spread_title = Label(titleFrame, text="Spread", width=10)
@@ -104,45 +106,41 @@ def leftFrameWork(leftFrame,read):
             spread_odds_away = Button(
                 away_frame, text=index[3], fg="red", bg="blue", width=10
             )
-            ml_away = Button(
-                away_frame, text=index[4], fg="red", bg="blue", width=10
-            )
+            ml_away = Button(away_frame, text=index[4], fg="red", bg="blue", width=10)
             spread_home = Label(
                 home_frame, text=index[5], fg="blue", bg="red", width=10
             )
             spread_odds_home = Button(
                 home_frame, text=index[6], fg="blue", bg="red", width=10
             )
-            ml_home = Button(
-                home_frame, text=index[7], fg="blue", bg="red", width=10
-            )
+            ml_home = Button(home_frame, text=index[7], fg="blue", bg="red", width=10)
 
             spread_odds_away.config(
                 command=lambda odds=index[
                     3
-                ], opp_button=spread_odds_home, curr_button=spread_odds_away: calcOdds(
-                    odds, opp_button, curr_button
+                ], opp_button=spread_odds_home, curr_button=spread_odds_away, bet_name="Chiefs spread": calcOdds(
+                    odds, opp_button, curr_button, bet_name
                 )
             )
             ml_away.config(
                 command=lambda odds=index[
                     4
-                ], opp_button=ml_home, curr_button=ml_away: calcOdds(
-                    odds, opp_button, curr_button
+                ], opp_button=ml_home, curr_button=ml_away, bet_name="Chiefs spread": calcOdds(
+                    odds, opp_button, curr_button, bet_name
                 )
             )
             spread_odds_home.config(
                 command=lambda odds=index[
                     6
-                ], opp_button=spread_odds_away, curr_button=spread_odds_home: calcOdds(
-                    odds, opp_button, curr_button
+                ], opp_button=spread_odds_away, curr_button=spread_odds_home, bet_name="Chiefs spread": calcOdds(
+                    odds, opp_button, curr_button, bet_name
                 )
             )
             ml_home.config(
                 command=lambda odds=index[
                     7
-                ], opp_button=ml_away, curr_button=ml_home: calcOdds(
-                    odds, opp_button, curr_button
+                ], opp_button=ml_away, curr_button=ml_home, bet_name="Chiefs spread": calcOdds(
+                    odds, opp_button, curr_button, bet_name
                 )
             )
             # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
@@ -177,20 +175,31 @@ def leftFrameWork(leftFrame,read):
             spaceFrame.pack()
             widgets.append(spaceFrame)
 
+
 def rightFrameWork(rightFrame):
-    frameTitle=Label(rightFrame, text="Your Odds Sir")
+    global oddsTextArea
+    frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
-    oddsFrame=Frame(rightFrame)
+    oddsFrame = Frame(rightFrame)
     oddsFrame.pack()
-    inputFrame=Frame(rightFrame)
+    oddsTextArea = Text(oddsFrame, height="20", width="30")
+    oddsTextArea.pack()
+    inputFrame = Frame(rightFrame)
     inputFrame.pack()
-    idkWhatToNameThisLabel=Label(inputFrame,text="How many dollars would you like to put in?")
+    idkWhatToNameThisLabel = Label(
+        inputFrame, text="How many dollars would you like to put in?", anchor="se"
+    )
     idkWhatToNameThisLabel.pack()
-    entryAmt=IntVar()
-    dollarEntry=Entry(inputFrame,textvariable=entryAmt)
-    button=ttk.Button(inputFrame,text="Submit")
-    dollarEntry.pack(side='left')
-    button.pack(side='left')
+    entryAmt = IntVar()
+    dollarEntry = Entry(inputFrame, textvariable=entryAmt)
+    button = ttk.Button(inputFrame, text="Submit")
+    dollarEntry.pack(side="left")
+    button.pack(side="left")
+    widgets.append(frameTitle)
+    widgets.append(oddsFrame)
+    widgets.append(inputFrame)
+    widgets.append(idkWhatToNameThisLabel)
+
 
 def labelsButtons(root, csv_file):
     global test
@@ -198,13 +207,14 @@ def labelsButtons(root, csv_file):
         read = csv.reader(file)
         next(read)
         # Add Labels and then packing and appending them to a list(widgets) so that they can be deleted later
-        leftFrame= Frame(root)
-        rightFrame= Frame(root)
-        leftFrame.pack(side=LEFT,fill=BOTH, expand=True)
-        rightFrame.pack(side=LEFT,fill=BOTH, expand=True)
-        leftFrameWork(leftFrame,read)
+        leftFrame = Frame(root)
+        rightFrame = Frame(root)
+        leftFrame.pack(side=LEFT, fill=BOTH, expand=True)
+        rightFrame.pack(side=LEFT, fill=BOTH, expand=True)
+        leftFrameWork(leftFrame, read)
         rightFrameWork(rightFrame)
+        widgets.append(leftFrameWork)
+        widgets.append(rightFrameWork)
 
-        
 
 root.mainloop()
