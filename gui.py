@@ -13,6 +13,7 @@ total_odds = 1
 def calcOdds(odds, button1, button2, team_name, bet_name):
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
+    finalOddsTextArea.delete(0.0, END)
     global total_odds
     if odds[0] == "−":
         curr_odd = int(odds[1:])
@@ -29,6 +30,7 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
     oddsTextArea.insert(END, f"{team_name} {bet_name}: {odds}\n")
+    finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
 
 
 widgets = []
@@ -186,12 +188,15 @@ def leftFrameWork(leftFrame, read):
 
 def rightFrameWork(rightFrame):
     global oddsTextArea
+    global finalOddsTextArea
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
     oddsFrame = Frame(rightFrame)
     oddsFrame.pack()
     oddsTextArea = Text(oddsFrame, height="20", width="30")
-    oddsTextArea.pack()
+    oddsTextArea.pack(side="top")
+    finalOddsTextArea = Text(oddsFrame, height="5", width="30")
+    finalOddsTextArea.pack(side="bottom")
     inputFrame = Frame(rightFrame)
     inputFrame.pack()
     idkWhatToNameThisLabel = Label(
@@ -206,6 +211,7 @@ def rightFrameWork(rightFrame):
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(oddsTextArea)
+    widgets.append(finalOddsTextArea)
     widgets.append(inputFrame)
     widgets.append(idkWhatToNameThisLabel)
     widgets.append(entryAmt)
