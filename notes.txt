@@ -21,3 +21,15 @@ Aug 11 notes
   - Grid locations for buttons and labels
   - Cleaned up GUI code
 - Added weeks to the csv
+
+Problems/corner cases (need to solve) - (Sam)
+
+- Buttons on my screen don't show up a different color after I click them
+- Buttons on my screen don't have a background color
+
+- Buttons not permenitly selected after they have been clicked on
+    - For example, I click on a button in week 7, go to week 8, bet on a game in week 8, come back to week 7 and I can click the same button I already clicked on
+
+- When GUI is opened, week 1 field is blank
+
+- Titles off centered

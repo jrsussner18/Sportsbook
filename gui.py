@@ -190,16 +190,29 @@ def rightFrameWork(rightFrame):
         inputFrame, text="How many dollars would you like to put in?", anchor="se"
     )
     idkWhatToNameThisLabel.pack()
+<<<<<<< HEAD
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
     button = ttk.Button(inputFrame, text="Submit")
     dollarEntry.pack(side="left")
     button.pack(side="left")
+=======
+    entryAmt=IntVar()
+    dollarEntry=Entry(inputFrame,textvariable=entryAmt)
+    button=Button(inputFrame,text="Submit")
+    dollarEntry.pack(side='left')
+    button.pack(side='left')
+>>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(inputFrame)
     widgets.append(idkWhatToNameThisLabel)
+<<<<<<< HEAD
 
+=======
+    widgets.append(dollarEntry)
+    widgets.append(button)
+>>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
 
 def labelsButtons(root, csv_file):
     global test
@@ -213,8 +226,14 @@ def labelsButtons(root, csv_file):
         rightFrame.pack(side=LEFT, fill=BOTH, expand=True)
         leftFrameWork(leftFrame, read)
         rightFrameWork(rightFrame)
+<<<<<<< HEAD
         widgets.append(leftFrameWork)
         widgets.append(rightFrameWork)
+=======
+        widgets.append(leftFrame)
+        widgets.append(rightFrame)
+
+>>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
 
 
 root.mainloop()
