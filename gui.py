@@ -209,7 +209,7 @@ def rightFrameWork(rightFrame):
     widgets.append(oddsFrame)
     widgets.append(inputFrame)
     widgets.append(idkWhatToNameThisLabel)
-
+    widgets.append(entryAmt)
     widgets.append(dollarEntry)
     widgets.append(button)
 
