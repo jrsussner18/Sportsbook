@@ -10,7 +10,7 @@ total_odds = 1
 
 
 # function to calculate the odds of a parlay
-def calcOdds(odds, button1, button2, bet_name):
+def calcOdds(odds, button1, button2, team_name, bet_name):
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
     global total_odds
@@ -28,7 +28,7 @@ def calcOdds(odds, button1, button2, bet_name):
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    oddsTextArea.insert(END, f"{bet_name}: {odds}\n")
+    oddsTextArea.insert(END, f"{team_name} {bet_name}: {odds}\n")
 
 
 widgets = []
@@ -118,29 +118,29 @@ def leftFrameWork(leftFrame, read):
             spread_odds_away.config(
                 command=lambda odds=index[
                     3
-                ], opp_button=spread_odds_home, curr_button=spread_odds_away, bet_name="Chiefs spread": calcOdds(
-                    odds, opp_button, curr_button, bet_name
+                ], opp_button=spread_odds_home, curr_button=spread_odds_away, team_name=away.text, bet_name="spread": calcOdds(
+                    odds, opp_button, curr_button, team_name, bet_name
                 )
             )
             ml_away.config(
                 command=lambda odds=index[
                     4
-                ], opp_button=ml_home, curr_button=ml_away, bet_name="Chiefs spread": calcOdds(
-                    odds, opp_button, curr_button, bet_name
+                ], opp_button=ml_home, curr_button=ml_away, team_name=away.text, bet_name="ML": calcOdds(
+                    odds, opp_button, curr_button, team_name, bet_name
                 )
             )
             spread_odds_home.config(
                 command=lambda odds=index[
                     6
-                ], opp_button=spread_odds_away, curr_button=spread_odds_home, bet_name="Chiefs spread": calcOdds(
-                    odds, opp_button, curr_button, bet_name
+                ], opp_button=spread_odds_away, curr_button=spread_odds_home, team_name=home.text, bet_name="spread": calcOdds(
+                    odds, opp_button, curr_button, team_name, bet_name
                 )
             )
             ml_home.config(
                 command=lambda odds=index[
                     7
-                ], opp_button=ml_away, curr_button=ml_home, bet_name="Chiefs spread": calcOdds(
-                    odds, opp_button, curr_button, bet_name
+                ], opp_button=ml_away, curr_button=ml_home, team_name=home.text, bet_name="ML": calcOdds(
+                    odds, opp_button, curr_button, team_name, bet_name
                 )
             )
             # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
@@ -190,29 +190,18 @@ def rightFrameWork(rightFrame):
         inputFrame, text="How many dollars would you like to put in?", anchor="se"
     )
     idkWhatToNameThisLabel.pack()
-<<<<<<< HEAD
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
     button = ttk.Button(inputFrame, text="Submit")
     dollarEntry.pack(side="left")
     button.pack(side="left")
-=======
-    entryAmt=IntVar()
-    dollarEntry=Entry(inputFrame,textvariable=entryAmt)
-    button=Button(inputFrame,text="Submit")
-    dollarEntry.pack(side='left')
-    button.pack(side='left')
->>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(inputFrame)
     widgets.append(idkWhatToNameThisLabel)
-<<<<<<< HEAD
-
-=======
+    widgets.append(entryAmt)
     widgets.append(dollarEntry)
-    widgets.append(button)
->>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
+
 
 def labelsButtons(root, csv_file):
     global test
@@ -226,14 +215,8 @@ def labelsButtons(root, csv_file):
         rightFrame.pack(side=LEFT, fill=BOTH, expand=True)
         leftFrameWork(leftFrame, read)
         rightFrameWork(rightFrame)
-<<<<<<< HEAD
         widgets.append(leftFrameWork)
         widgets.append(rightFrameWork)
-=======
-        widgets.append(leftFrame)
-        widgets.append(rightFrame)
-
->>>>>>> 7f94a00321ef0a8f042aef5bfc88d1f28fc26a10
 
 
 root.mainloop()
