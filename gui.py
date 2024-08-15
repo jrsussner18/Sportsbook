@@ -220,3 +220,4 @@ def labelsButtons(root, csv_file):
 
 
 root.mainloop()
+print("hi")
