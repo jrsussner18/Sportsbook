@@ -16,9 +16,15 @@ curr_bets = []  # List to store all the current bets of a parlay
 
 # Function to calculate the odds of a parlay
 def calcOdds(odds, button1, button2, team_name, bet_name):
+
+    # Make sure you are printing multiple final odds
     finalOddsTextArea.delete(0.0, END)
+
+    # grab global variables to update
     global total_odds
     global final_odds
+
+    # algroithm to convert american "+" or "-" odds to European decimal odds
     if odds[0] == "−":
         curr_odd = int(odds[1:])
         curr_odd = 1 + (100 / curr_odd)
@@ -33,11 +39,15 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
 
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
+    # Disable buttons so user can't make the same bet more than once
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    # if button1["state"] == DISABLED -> how to check if a button is alread disabled
+
+    # Add bet to list
     curr_bets.append([team_name, bet_name, odds])
+
+    # call function to put odds in respective textbox widgets
     keepPicksOnText(oddsTextArea)
 
 
@@ -67,20 +77,30 @@ def clearWidgets():
     widgets.clear()
 
 
+# Function that will submit the user bet
 def submitBet():
+    # grab global variables to update
     global curr_bets
     global total_odds
+
+    # get user wager amount and calc winnings if parlay hits
     wager = int(dollarEntry.get())
     winnings = "$ {:.2f}".format(total_odds * wager)
     wager = "$" + str(wager)
-    dollarEntry.delete("0", END)
+
+    # sample output of what already made bets could look like
     print("Your Bet: \n")
     print(f"{wager} to win: {winnings} \n")
     for bet in curr_bets:
         print(f"{bet[0]} {bet[1]}: {bet[2]}\n")
     print(f"Total odds:  {final_odds}\n")
+
+    # delete previous made entrys
+    dollarEntry.delete("0", END)
     oddsTextArea.delete(0.0, END)
-    finalOddsTextArea.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
+    finalOddsTextArea.delete(1.11, END)
+
+    # reset all betting odds
     curr_bets = []
     total_odds = 1
 
