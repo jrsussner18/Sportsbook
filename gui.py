@@ -4,14 +4,14 @@ import csv
 
 # Creating and Labeling the GUI window
 root = Tk()
-root.geometry("750x350")
+root.geometry("750x500")
 root.title("Sportsbook")
 
 # Global variables
 total_odds = 1  # Used to keep track of the total odds of a parlay
 final_odds = ""  # Used to keep track of the + or - odds of total_odds
 widgets = []  # List to store all widgets to be cleared in clearWidgets
-currBets = []  # List to store all the current bets of a parlay
+curr_bets = []  # List to store all the current bets of a parlay
 
 
 # Function to calculate the odds of a parlay
@@ -36,7 +36,8 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    currBets.append([team_name, bet_name, odds])
+    # if button1["state"] == DISABLED -> how to check if a button is alread disabled
+    curr_bets.append([team_name, bet_name, odds])
     keepPicksOnText(oddsTextArea)
 
 
@@ -44,7 +45,7 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
 def keepPicksOnText(oddsTextArea):
     global final_odds
     oddsTextArea.delete("1.0", "end")
-    for bet in currBets:
+    for bet in curr_bets:
         oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
     finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
 
@@ -64,6 +65,24 @@ def clearWidgets():
         if isinstance(widget, (Label, Button, Frame, Text, Entry)):
             widget.pack_forget()
     widgets.clear()
+
+
+def submitBet():
+    global curr_bets
+    global total_odds
+    wager = int(dollarEntry.get())
+    winnings = "$ {:.2f}".format(total_odds * wager)
+    wager = "$" + str(wager)
+    dollarEntry.delete("0", END)
+    print("Your Bet: \n")
+    print(f"{wager} to win: {winnings} \n")
+    for bet in curr_bets:
+        print(f"{bet[0]} {bet[1]}: {bet[2]}\n")
+    print(f"Total odds:  {final_odds}\n")
+    oddsTextArea.delete(0.0, END)
+    finalOddsTextArea.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
+    curr_bets = []
+    total_odds = 1
 
 
 # List of different weeks to choose from for the option Menu
@@ -204,6 +223,7 @@ def leftFrameWork(leftFrame, read):
 def rightFrameWork(rightFrame):
     global oddsTextArea
     global finalOddsTextArea
+    global dollarEntry
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
     oddsFrame = Frame(rightFrame)
@@ -214,13 +234,13 @@ def rightFrameWork(rightFrame):
     finalOddsTextArea.pack(side="bottom")
     inputFrame = Frame(rightFrame)
     inputFrame.pack()
-    idkWhatToNameThisLabel = Label(
+    MoneyLabel = Label(
         inputFrame, text="How many dollars would you like to put in?", anchor="se"
     )
-    idkWhatToNameThisLabel.pack()
+    MoneyLabel.pack()
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
-    button = Button(inputFrame, text="Submit")
+    button = Button(inputFrame, text="Submit", command=submitBet)
     dollarEntry.pack(side="left")
     button.pack(side="left")
     widgets.append(frameTitle)
@@ -228,7 +248,7 @@ def rightFrameWork(rightFrame):
     widgets.append(oddsTextArea)
     widgets.append(finalOddsTextArea)
     widgets.append(inputFrame)
-    widgets.append(idkWhatToNameThisLabel)
+    widgets.append(MoneyLabel)
     widgets.append(entryAmt)
     widgets.append(dollarEntry)
     widgets.append(button)
