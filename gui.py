@@ -1,18 +1,19 @@
+# Libaries used to import
 from tkinter import *
-from tkinter import ttk
 import csv
 
+# Creating and Labeling the GUI window
 root = Tk()
 root.geometry("750x350")
 root.title("Sportsbook")
 
-total_odds = 1
+# Global variables
+total_odds = 1  # Used to keep track of the total odds of a parlay
+widgets = []    # List to store all widgets to be cleared in clearWidgets
+currBets=[]     # List to store all the current bets of a parlay
 
-
-# function to calculate the odds of a parlay
+# Function to calculate the odds of a parlay
 def calcOdds(odds, button1, button2, team_name, bet_name):
-    # Button 1 is the opposite button
-    # Button 2 is the button the user is pressing
     finalOddsTextArea.delete(0.0, END)
     global total_odds
     if odds[0] == "−":
@@ -26,15 +27,21 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
         final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
         final_odds = "+" + str(round((total_odds - 1) * 100))
+    
+    # Button 1 is the opposite button
+    # Button 2 is the button the user is pressing
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    oddsTextArea.insert(END, f"{team_name} {bet_name}: {odds}\n")
+    currBets.append([team_name,bet_name,odds])
+    keepPicksOnText(oddsTextArea)
     finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
 
-
-widgets = []
-
+# Function that will prevent the parlay from being cleared from view
+def keepPicksOnText(oddsTextArea):
+    oddsTextArea.delete("1.0","end")
+    for bet in currBets:
+        oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
 def change(selection):
@@ -42,15 +49,14 @@ def change(selection):
     test = selection
     clearWidgets()
     labelsButtons(root, "lines.csv")
-
+    keepPicksOnText(oddsTextArea)
 
 # Function that deletes all widgets from the list
 def clearWidgets():
     for widget in widgets:
-        if isinstance(widget, (Label, Button, Frame, Text, Entry, ttk.Button)):
+        if isinstance(widget, (Label, Button, Frame, Text, Entry)):
             widget.pack_forget()
     widgets.clear()
-
 
 # List of different weeks to choose from for the option Menu
 options = [
@@ -73,9 +79,9 @@ options = [
     "Week 17",
     "Week 18",
 ]
+# Creating the initial dropdown menu for picking different weeks
 clicked = StringVar()
 clicked.set(options[0])
-
 drop = OptionMenu(root, clicked, *options, command=change)
 drop.pack()
 
@@ -177,13 +183,13 @@ def leftFrameWork(leftFrame, read):
 
             ml_home.pack(side="left")
             widgets.append(ml_home)
+            # Space Frame to put a small gap between games
+            spaceFrame = Frame(root, height=100)
+            spaceFrame.pack()
             away_frame.pack()
             home_frame.pack()
             widgets.append(away_frame)
             widgets.append(home_frame)
-            # Space Frame to put a small gap between games
-            spaceFrame = Frame(root, height=10)
-            spaceFrame.pack()
             widgets.append(spaceFrame)
 
 
@@ -206,7 +212,7 @@ def rightFrameWork(rightFrame):
     idkWhatToNameThisLabel.pack()
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
-    button = ttk.Button(inputFrame, text="Submit")
+    button = Button(inputFrame, text="Submit")
     dollarEntry.pack(side="left")
     button.pack(side="left")
     widgets.append(frameTitle)
@@ -235,5 +241,6 @@ def labelsButtons(root, csv_file):
         widgets.append(leftFrame)
         widgets.append(rightFrame)
 
+change("Week 1")
 
 root.mainloop()
