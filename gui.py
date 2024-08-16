@@ -47,7 +47,8 @@ def change(selection):
 # Function that deletes all widgets from the list
 def clearWidgets():
     for widget in widgets:
-        widget.pack_forget()
+        if isinstance(widget, (Label, Button, Frame, Text, Entry, ttk.Button)):
+            widget.pack_forget()
     widgets.clear()
 
 
