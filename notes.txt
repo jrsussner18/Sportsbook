@@ -33,3 +33,21 @@ Problems/corner cases (need to solve) - (Sam)
 - When GUI is opened, week 1 field is blank
 
 - Titles off centered
+
+Aug 15 notes
+- Added a textbox for a parlay buildup
+- added a textbox for final Odds
+
+- Fixed GUI bugs
+  - When week was changed, whole GUI went blank
+  - odds were not following from week to week
+
+- More bugs to fix:
+  - When changing weeks, disabled buttons need to stay disabled
+  - Maybe make it so that you cannot bet on the ML if already betting on the spread of the same game? (Maybe not)
+
+- More things to add:
+  - Set up a monetary system to actually make bets
+  - Send already made bets to a separate txt or csv file
+  - Make it personalized, so that your bets follow only you
+  - Make it able to access already made bets within the GUI
