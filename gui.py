@@ -9,13 +9,16 @@ root.title("Sportsbook")
 
 # Global variables
 total_odds = 1  # Used to keep track of the total odds of a parlay
-widgets = []    # List to store all widgets to be cleared in clearWidgets
-currBets=[]     # List to store all the current bets of a parlay
+final_odds = ""  # Used to keep track of the + or - odds of total_odds
+widgets = []  # List to store all widgets to be cleared in clearWidgets
+currBets = []  # List to store all the current bets of a parlay
+
 
 # Function to calculate the odds of a parlay
 def calcOdds(odds, button1, button2, team_name, bet_name):
     finalOddsTextArea.delete(0.0, END)
     global total_odds
+    global final_odds
     if odds[0] == "−":
         curr_odd = int(odds[1:])
         curr_odd = 1 + (100 / curr_odd)
@@ -27,21 +30,24 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
         final_odds = "-" + str(round((100 / (total_odds - 1))))
     else:
         final_odds = "+" + str(round((total_odds - 1) * 100))
-    
+
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    currBets.append([team_name,bet_name,odds])
+    currBets.append([team_name, bet_name, odds])
     keepPicksOnText(oddsTextArea)
-    finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+
 
 # Function that will prevent the parlay from being cleared from view
 def keepPicksOnText(oddsTextArea):
-    oddsTextArea.delete("1.0","end")
+    global final_odds
+    oddsTextArea.delete("1.0", "end")
     for bet in currBets:
         oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
+    finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
 def change(selection):
@@ -51,12 +57,14 @@ def change(selection):
     labelsButtons(root, "lines.csv")
     keepPicksOnText(oddsTextArea)
 
+
 # Function that deletes all widgets from the list
 def clearWidgets():
     for widget in widgets:
         if isinstance(widget, (Label, Button, Frame, Text, Entry)):
             widget.pack_forget()
     widgets.clear()
+
 
 # List of different weeks to choose from for the option Menu
 options = [
@@ -240,6 +248,7 @@ def labelsButtons(root, csv_file):
         rightFrameWork(rightFrame)
         widgets.append(leftFrame)
         widgets.append(rightFrame)
+
 
 change("Week 1")
 
