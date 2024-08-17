@@ -8,6 +8,8 @@ total_odds = 1  # Used to keep track of the total odds of a parlay
 final_odds = ""  # Used to keep track of the + or - odds of total_odds
 widgets = []  # List to store all widgets to be cleared in clearWidgets
 curr_bets = []  # List to store all the current bets of a parlay
+
+
 def main():
     root = Tk()
     root.geometry("750x500")
@@ -37,7 +39,9 @@ def main():
     clicked = StringVar()
     clicked.set(options[0])
     # Corrected lambda to pass the selected week directly
-    drop = OptionMenu(root, clicked, *options, command=lambda selection: change(selection, root))
+    drop = OptionMenu(
+        root, clicked, *options, command=lambda selection: change(selection, root)
+    )
     drop.pack()
 
     # Initialize with the first week's data
@@ -93,7 +97,7 @@ def keepPicksOnText(oddsTextArea):
 
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
-def change(selection,root):
+def change(selection, root):
     global test
     test = selection
     clearWidgets()
@@ -117,16 +121,16 @@ def submitBet():
 
     # get user wager amount and calc winnings if parlay hits
     wager = int(dollarEntry.get())
-    winnings = "$ {:.2f}".format(total_odds * wager)
+    winnings = "${:.2f}".format(total_odds * wager)
     wager = "$" + str(wager)
     dollarEntry.delete("0", END)
 
     # sample output of what already made bets could look like
-    print("Your Bet: \n")
-    print(f"{wager} to win: {winnings} \n")
-    for bet in curr_bets:
-        print(f"{bet[0]} {bet[1]}: {bet[2]}\n")
-    print(f"Total odds:  {final_odds}\n")
+    # print("Your Bet: \n")
+    # print(f"{wager} to win: {winnings} \n")
+    # for bet in curr_bets:
+    #     print(f"{bet[0]} {bet[1]}: {bet[2]}\n")
+    # print(f"Total odds:  {final_odds}\n")
 
     # delete previous made entrys
     dollarEntry.delete("0", END)
@@ -134,11 +138,35 @@ def submitBet():
     finalOddsTextArea.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
     finalOddsTextArea.delete(1.11, END)
 
+    storeBets(curr_bets, final_odds, wager, winnings)
     # reset all betting odds
     curr_bets = []
     total_odds = 1
 
-def leftFrameWork(leftFrame, read,root):
+
+def storeBets(user_bets, final_odds, wager, winnings):
+
+    all_bets = ""
+    for bets in user_bets:
+        # join the list of curr_bets together
+        all_bets += f"{bets[0]} {bets[1]}: {bets[2]},"
+
+    # open csvfile and write bets to file
+    with open("madebets.csv", "w", newline="", encoding="utf-8") as file:
+        csvWriter = csv.writer(file)
+
+        csvWriter.writerow(["Bets", "Total Odds", "Wager", "Winnings"])
+        csvWriter.writerow(
+            [
+                all_bets,
+                final_odds,
+                wager,
+                winnings,
+            ]
+        )
+
+
+def leftFrameWork(leftFrame, read, root):
     titleFrame = Frame(leftFrame)
     teams_title = Label(titleFrame, text="Teams", width=15)
     spread_title = Label(titleFrame, text="Spread", width=10)
@@ -244,6 +272,7 @@ def leftFrameWork(leftFrame, read,root):
             widgets.append(home_frame)
             widgets.append(spaceFrame)
 
+
 def rightFrameWork(rightFrame):
     global oddsTextArea
     global finalOddsTextArea
@@ -277,6 +306,7 @@ def rightFrameWork(rightFrame):
     widgets.append(dollarEntry)
     widgets.append(button)
 
+
 def labelsButtons(root, csv_file):
     global test
     with open(csv_file, "r", encoding="utf-8") as file:
@@ -287,7 +317,11 @@ def labelsButtons(root, csv_file):
         rightFrame = Frame(root)
         leftFrame.pack(side=LEFT, fill=BOTH, expand=True)
         rightFrame.pack(side=LEFT, fill=BOTH, expand=True)
-        leftFrameWork(leftFrame, read,root)
+        leftFrameWork(leftFrame, read, root)
         rightFrameWork(rightFrame)
         widgets.append(leftFrame)
         widgets.append(rightFrame)
+
+
+# for debugging code to bypass login
+main()
