@@ -3,18 +3,49 @@ from tkinter import *
 import csv
 
 # Creating and Labeling the GUI window
-root = Tk()
-root.geometry("750x500")
-root.title("Sportsbook")
-
 # Global variables
 total_odds = 1  # Used to keep track of the total odds of a parlay
 final_odds = ""  # Used to keep track of the + or - odds of total_odds
 widgets = []  # List to store all widgets to be cleared in clearWidgets
 curr_bets = []  # List to store all the current bets of a parlay
+def main():
+    root = Tk()
+    root.geometry("750x500")
+    root.title("Sportsbook")
+    # List of different weeks to choose from for the option Menu
+    options = [
+        "Week 1",
+        "Week 2",
+        "Week 3",
+        "Week 4",
+        "Week 5",
+        "Week 6",
+        "Week 7",
+        "Week 8",
+        "Week 9",
+        "Week 10",
+        "Week 11",
+        "Week 12",
+        "Week 13",
+        "Week 14",
+        "Week 15",
+        "Week 16",
+        "Week 17",
+        "Week 18",
+    ]
+    # Creating the initial dropdown menu for picking different weeks
+    clicked = StringVar()
+    clicked.set(options[0])
+    # Corrected lambda to pass the selected week directly
+    drop = OptionMenu(root, clicked, *options, command=lambda selection: change(selection, root))
+    drop.pack()
+
+    # Initialize with the first week's data
+    change(clicked.get(), root)
+
+    root.mainloop()
 
 
-# Function to calculate the odds of a parlay
 def calcOdds(odds, button1, button2, team_name, bet_name):
 
     # Make sure you are printing multiple final odds
@@ -43,6 +74,7 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
+    # if button1["state"] == DISABLED -> how to check if a button is alread disabled
 
     # Add bet to list
     curr_bets.append([team_name, bet_name, odds])
@@ -61,7 +93,7 @@ def keepPicksOnText(oddsTextArea):
 
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
-def change(selection):
+def change(selection,root):
     global test
     test = selection
     clearWidgets()
@@ -87,6 +119,7 @@ def submitBet():
     wager = int(dollarEntry.get())
     winnings = "$ {:.2f}".format(total_odds * wager)
     wager = "$" + str(wager)
+    dollarEntry.delete("0", END)
 
     # sample output of what already made bets could look like
     print("Your Bet: \n")
@@ -98,42 +131,14 @@ def submitBet():
     # delete previous made entrys
     dollarEntry.delete("0", END)
     oddsTextArea.delete(0.0, END)
+    finalOddsTextArea.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
     finalOddsTextArea.delete(1.11, END)
 
     # reset all betting odds
     curr_bets = []
     total_odds = 1
 
-
-# List of different weeks to choose from for the option Menu
-options = [
-    "Week 1",
-    "Week 2",
-    "Week 3",
-    "Week 4",
-    "Week 5",
-    "Week 6",
-    "Week 7",
-    "Week 8",
-    "Week 9",
-    "Week 10",
-    "Week 11",
-    "Week 12",
-    "Week 13",
-    "Week 14",
-    "Week 15",
-    "Week 16",
-    "Week 17",
-    "Week 18",
-]
-# Creating the initial dropdown menu for picking different weeks
-clicked = StringVar()
-clicked.set(options[0])
-drop = OptionMenu(root, clicked, *options, command=change)
-drop.pack()
-
-
-def leftFrameWork(leftFrame, read):
+def leftFrameWork(leftFrame, read,root):
     titleFrame = Frame(leftFrame)
     teams_title = Label(titleFrame, text="Teams", width=15)
     spread_title = Label(titleFrame, text="Spread", width=10)
@@ -239,7 +244,6 @@ def leftFrameWork(leftFrame, read):
             widgets.append(home_frame)
             widgets.append(spaceFrame)
 
-
 def rightFrameWork(rightFrame):
     global oddsTextArea
     global finalOddsTextArea
@@ -273,7 +277,6 @@ def rightFrameWork(rightFrame):
     widgets.append(dollarEntry)
     widgets.append(button)
 
-
 def labelsButtons(root, csv_file):
     global test
     with open(csv_file, "r", encoding="utf-8") as file:
@@ -284,12 +287,7 @@ def labelsButtons(root, csv_file):
         rightFrame = Frame(root)
         leftFrame.pack(side=LEFT, fill=BOTH, expand=True)
         rightFrame.pack(side=LEFT, fill=BOTH, expand=True)
-        leftFrameWork(leftFrame, read)
+        leftFrameWork(leftFrame, read,root)
         rightFrameWork(rightFrame)
         widgets.append(leftFrame)
         widgets.append(rightFrame)
-
-
-change("Week 1")
-
-root.mainloop()
