@@ -2,7 +2,7 @@ from tkinter import *
 import csv
 import gui
 
-with open("storethings.csv", "r", encoding="utf-8") as file:
+with open("loginInfo.csv", "r", encoding="utf-8") as file:
         read = csv.reader(file)
         usernames=next(read)
         passwords=next(read)
@@ -11,13 +11,13 @@ def checkLogIn(username,password):
     for user,word in zip(usernames,passwords):
         if user == username and word==password:
             root.destroy()
-            gui.main()
+            gui.main(username)
             return
 
 def newUser(username,password):
     if username in usernames:
          return
-    with open("storethings.csv", "w", newline="", encoding="utf-8") as file:
+    with open("loginInfo.csv", "w", newline="", encoding="utf-8") as file:
         csvWriter = csv.writer(file)
         usernames.append(username)
         passwords.append(password)

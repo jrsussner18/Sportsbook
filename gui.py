@@ -10,7 +10,9 @@ widgets = []  # List to store all widgets to be cleared in clearWidgets
 curr_bets = []  # List to store all the current bets of a parlay
 
 
-def main():
+def main(username):
+    global user
+    user=username
     root = Tk()
     root.geometry("750x500")
     root.title("Sportsbook")
@@ -46,8 +48,14 @@ def main():
 
     # Initialize with the first week's data
     change(clicked.get(), root)
-
     root.mainloop()
+
+# Function that finds all the bets from the given username and makes a list of bets to be displayed later. Add bets to curr_bets maybe?
+# def getBets():
+#     with open("prevBetInfo.csv", "a", newline="", encoding="utf-8") as file:
+#         reader=csv.reader(file)
+#         for thing in reader:
+#             if thing[0]==user:
 
 
 def calcOdds(odds, button1, button2, team_name, bet_name):
@@ -145,19 +153,19 @@ def submitBet():
 
 
 def storeBets(user_bets, final_odds, wager, winnings):
-
     all_bets = ""
     for bets in user_bets:
         # join the list of curr_bets together
         all_bets += f"{bets[0]} {bets[1]}: {bets[2]},"
 
     # open csvfile and write bets to file
-    with open("madebets.csv", "w", newline="", encoding="utf-8") as file:
+    with open("prevBetInfo.csv", "a", newline="", encoding="utf-8") as file:
         csvWriter = csv.writer(file)
 
-        csvWriter.writerow(["Bets", "Total Odds", "Wager", "Winnings"])
+        # csvWriter.writerow(["Bets", "Total Odds", "Wager", "Winnings"])
         csvWriter.writerow(
             [
+                user,
                 all_bets,
                 final_odds,
                 wager,
@@ -277,6 +285,16 @@ def rightFrameWork(rightFrame):
     global oddsTextArea
     global finalOddsTextArea
     global dollarEntry
+
+    # Place to add the option menu
+    # clicked = StringVar()
+    # # Corrected lambda to pass the selected week directly
+    # drop = OptionMenu(
+    #     rightFrame, clicked, *options, command=lambda selection: change(selection, root)
+    # )
+    # drop.pack()
+    
+
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
     oddsFrame = Frame(rightFrame)
@@ -324,4 +342,4 @@ def labelsButtons(root, csv_file):
 
 
 # for debugging code to bypass login
-main()
+# main()
