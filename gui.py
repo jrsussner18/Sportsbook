@@ -8,6 +8,7 @@ total_odds = 1  # Used to keep track of the total odds of a parlay
 final_odds = ""  # Used to keep track of the + or - odds of total_odds
 widgets = []  # List to store all widgets to be cleared in clearWidgets
 curr_bets = []  # List to store all the current bets of a parlay
+disabled_buttons = {}  # Dictionary to store the disabled buttons number and week
 
 
 def main(username):
@@ -59,7 +60,9 @@ def main(username):
 #             if thing[0]==user:
 
 
-def calcOdds(odds, button1, button2, team_name, bet_name):
+def calcOdds(
+    odds, button1, button2, team_name, bet_name, button_number1, button_number2
+):
 
     # Make sure you are printing multiple final odds
     finalOddsTextArea.delete(0.0, END)
@@ -87,7 +90,10 @@ def calcOdds(odds, button1, button2, team_name, bet_name):
     button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
-    # if button1["state"] == DISABLED -> how to check if a button is alread disabled
+
+    # add disabled buttons to dictionary
+    disabled_buttons[button_number1] = test
+    disabled_buttons[button_number2] = test
 
     # Add bet to list
     curr_bets.append([team_name, bet_name, odds])
@@ -191,9 +197,16 @@ def leftFrameWork(leftFrame, read, root):
     widgets.append(spread_title)
     widgets.append(spread_odds_title)
     widgets.append(ml_title)
+
+    button_count = 1
+
     for x, index in enumerate(read):
         if index[-1] == test.split(" ")[1]:
             # Initialize Labels
+            spread_odds_away_button_count = button_count
+            spread_odds_home_button_count = button_count + 2
+            Ml_odds_away_button_count = button_count + 1
+            ML_odds_home_button_count = button_count + 3
             away_frame = Frame(leftFrame)
             home_frame = Frame(leftFrame)
             away = Label(away_frame, text=index[0], width=15)
@@ -202,24 +215,54 @@ def leftFrameWork(leftFrame, read, root):
                 away_frame, text=index[2], fg="red", bg="blue", width=10
             )
             spread_odds_away = Button(
-                away_frame, text=index[3], fg="red", bg="blue", width=10
+                away_frame,
+                text=index[3],
+                fg="red",
+                bg="blue",
+                name=str(spread_odds_away_button_count),
+                width=10,
             )
-            ml_away = Button(away_frame, text=index[4], fg="red", bg="blue", width=10)
+            ml_away = Button(
+                away_frame,
+                text=index[4],
+                fg="red",
+                bg="blue",
+                name=str(Ml_odds_away_button_count),
+                width=10,
+            )
             spread_home = Label(
                 home_frame, text=index[5], fg="blue", bg="red", width=10
             )
             spread_odds_home = Button(
-                home_frame, text=index[6], fg="blue", bg="red", width=10
+                home_frame,
+                text=index[6],
+                fg="blue",
+                bg="red",
+                name=str(spread_odds_home_button_count),
+                width=10,
             )
-            ml_home = Button(home_frame, text=index[7], fg="blue", bg="red", width=10)
+            ml_home = Button(
+                home_frame,
+                text=index[7],
+                fg="blue",
+                bg="red",
+                name=str(ML_odds_home_button_count),
+                width=10,
+            )
 
             spread_odds_away.config(
                 command=lambda odds=index[
                     3
                 ], opp_button=spread_odds_home, curr_button=spread_odds_away, team_name=index[
                     0
-                ], bet_name="spread": calcOdds(
-                    odds, opp_button, curr_button, team_name, bet_name
+                ], bet_name="spread", away_button_number=spread_odds_away_button_count, home_button_number=spread_odds_home_button_count: calcOdds(
+                    odds,
+                    opp_button,
+                    curr_button,
+                    team_name,
+                    bet_name,
+                    away_button_number,
+                    home_button_number,
                 )
             )
             ml_away.config(
@@ -227,8 +270,14 @@ def leftFrameWork(leftFrame, read, root):
                     4
                 ], opp_button=ml_home, curr_button=ml_away, team_name=index[
                     0
-                ], bet_name="ML": calcOdds(
-                    odds, opp_button, curr_button, team_name, bet_name
+                ], bet_name="ML", away_button_number=Ml_odds_away_button_count, home_button_number=ML_odds_home_button_count: calcOdds(
+                    odds,
+                    opp_button,
+                    curr_button,
+                    team_name,
+                    bet_name,
+                    away_button_number,
+                    home_button_number,
                 )
             )
             spread_odds_home.config(
@@ -236,8 +285,14 @@ def leftFrameWork(leftFrame, read, root):
                     6
                 ], opp_button=spread_odds_away, curr_button=spread_odds_home, team_name=index[
                     1
-                ], bet_name="spread": calcOdds(
-                    odds, opp_button, curr_button, team_name, bet_name
+                ], bet_name="spread", home_button_number=spread_odds_home_button_count, away_button_number=spread_odds_away_button_count: calcOdds(
+                    odds,
+                    opp_button,
+                    curr_button,
+                    team_name,
+                    bet_name,
+                    home_button_number,
+                    away_button_number,
                 )
             )
             ml_home.config(
@@ -245,8 +300,14 @@ def leftFrameWork(leftFrame, read, root):
                     7
                 ], opp_button=ml_away, curr_button=ml_home, team_name=index[
                     1
-                ], bet_name="ML": calcOdds(
-                    odds, opp_button, curr_button, team_name, bet_name
+                ], bet_name="ML", home_button_number=ML_odds_home_button_count, away_button_number=Ml_odds_away_button_count: calcOdds(
+                    odds,
+                    opp_button,
+                    curr_button,
+                    team_name,
+                    bet_name,
+                    home_button_number,
+                    away_button_number,
                 )
             )
             # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
@@ -280,6 +341,15 @@ def leftFrameWork(leftFrame, read, root):
             widgets.append(away_frame)
             widgets.append(home_frame)
             widgets.append(spaceFrame)
+
+            button_count += 4
+
+    # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
+    for widget in widgets:
+        if isinstance(widget, Button):
+            for button_number, week in disabled_buttons.items():
+                if int(widget._name) == button_number and test == week:
+                    widget["state"] = DISABLED
 
 
 def rightFrameWork(rightFrame):
