@@ -51,3 +51,15 @@ Aug 15 notes
   - Send already made bets to a separate txt or csv file
   - Make it personalized, so that your bets follow only you
   - Make it able to access already made bets within the GUI
+
+August 21 Notes:
+
+- Things to do:
+  - fix diabled button bug
+  - Add a dropdown for prev bets
+  - ScrollBar (@$#%$#@#$@#)
+  - Clear Buttons
+
+- Final touches:
+  - Clean up code
+  - Add comments

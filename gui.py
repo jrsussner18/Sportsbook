@@ -12,7 +12,7 @@ curr_bets = []  # List to store all the current bets of a parlay
 
 def main(username):
     global user
-    user=username
+    user = username
     root = Tk()
     root.geometry("750x500")
     root.title("Sportsbook")
@@ -49,6 +49,7 @@ def main(username):
     # Initialize with the first week's data
     change(clicked.get(), root)
     root.mainloop()
+
 
 # Function that finds all the bets from the given username and makes a list of bets to be displayed later. Add bets to curr_bets maybe?
 # def getBets():
@@ -293,7 +294,6 @@ def rightFrameWork(rightFrame):
     #     rightFrame, clicked, *options, command=lambda selection: change(selection, root)
     # )
     # drop.pack()
-    
 
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
@@ -342,4 +342,4 @@ def labelsButtons(root, csv_file):
 
 
 # for debugging code to bypass login
-# main()
+main("test")
