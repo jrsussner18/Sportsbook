@@ -133,6 +133,7 @@ def submitBet():
     # grab global variables to update
     global curr_bets
     global total_odds
+    global disabled_buttons
 
     # get user wager amount and calc winnings if parlay hits
     wager = int(dollarEntry.get())
@@ -157,6 +158,13 @@ def submitBet():
     # reset all betting odds
     curr_bets = []
     total_odds = 1
+    # clear the disabled buttons dictionary
+    disabled_buttons.clear()
+
+    # reset the buttons to not be disabled
+    for widget in widgets:
+        if isinstance(widget, Button):
+            widget["state"] = NORMAL
 
 
 def storeBets(user_bets, final_odds, wager, winnings):
