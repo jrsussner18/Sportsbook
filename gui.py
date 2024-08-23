@@ -399,6 +399,16 @@ def leftFrameWork(leftFrame, read, root):
                 if int(widget._name) == button_number and test == week:
                     widget["state"] = DISABLED
 
+def clearChoices():
+    curr_bets.clear
+    oddsTextArea.delete("1.0", "end")
+    finalOddsTextArea.delete("1.0", "end")
+    dollarEntry.delete(0, END)
+    for widget in widgets:
+        if isinstance(widget, Button):
+            widget["state"] = NORMAL
+    
+
 
 def rightFrameWork(rightFrame):
     global oddsTextArea
@@ -425,6 +435,8 @@ def rightFrameWork(rightFrame):
     button = Button(inputFrame, text="Submit", command=submitBet)
     dollarEntry.pack(side="left")
     button.pack(side="left")
+    clear_button = Button(rightFrame, text="Clear", command= lambda: clearChoices())
+    clear_button.pack()
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(oddsTextArea)
