@@ -45,7 +45,15 @@ def main(username):
     drop = OptionMenu(
         root, clicked, *options, command=lambda selection: change(selection, root)
     )
+    x=getBets()
+    betsOptions=[z+1 for z in range(len(x))]
+    betClicked=IntVar()
+    betDropDown=OptionMenu(root, betClicked, *betsOptions, command=lambda selection, prevBets=x:printPrevBets(selection,prevBets,root))
     drop.pack()
+
+    prevBetLabel=Label(root, text="Previous Bets:")
+    prevBetLabel.pack()
+    betDropDown.pack()
 
     # Initialize with the first week's data
     change(clicked.get(), root)
@@ -53,11 +61,24 @@ def main(username):
 
 
 # Function that finds all the bets from the given username and makes a list of bets to be displayed later. Add bets to curr_bets maybe?
-# def getBets():
-#     with open("prevBetInfo.csv", "a", newline="", encoding="utf-8") as file:
-#         reader=csv.reader(file)
-#         for thing in reader:
-#             if thing[0]==user:
+def getBets():
+    lists=[]
+    with open("prevBetInfo.csv", "r", newline="", encoding="utf-8") as file:
+        reader=csv.reader(file)
+        counter=1
+        for thing in reader:
+            if thing[0]==user:
+                thing[0]=counter
+                counter+=1
+                lists.append(thing)
+    return lists
+
+def printPrevBets(selection, prevBets,root):
+    global curr_bets
+    global final_odds
+    curr_bets=prevBets[selection-1]
+    final_odds=curr_bets[2]
+    change("Week 1", root)
 
 
 def calcOdds(
@@ -99,16 +120,35 @@ def calcOdds(
     curr_bets.append([team_name, bet_name, odds])
 
     # call function to put odds in respective textbox widgets
-    keepPicksOnText(oddsTextArea)
+    keepPicksOnText()
 
 
 # Function that will prevent the parlay from being cleared from view
-def keepPicksOnText(oddsTextArea):
+def keepPicksOnText():
     global final_odds
     oddsTextArea.delete("1.0", "end")
-    for bet in curr_bets:
-        oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
-    finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+    if len(curr_bets)==0:
+        finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+    elif type(curr_bets[0])==int:
+        bet_string=curr_bets[1]
+        # First, split the string by commas to separate each bet
+        bets = bet_string.split(',')
+
+        # Iterate over each bet and extract the team name, bet type, and odds
+        for bet in bets:
+            if bet:
+                parts = bet.split()
+                team_name = parts[0] + " " + parts[1]
+                bet_type = parts[2]
+                bet_odds = parts[3]
+                oddsTextArea.insert(END, f"{team_name} {bet_type} {bet_odds}\n")
+        finalOddsTextArea.delete(0.0, END)
+        finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+        finalOddsTextArea.insert(END,f"\n\nBet Amount: {curr_bets[3]} \nTo win: {curr_bets[4]}")
+    elif type(curr_bets[0][0])==str:
+        for bet in curr_bets:
+            oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
+        finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
 
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
@@ -117,7 +157,7 @@ def change(selection, root):
     test = selection
     clearWidgets()
     labelsButtons(root, "lines.csv")
-    keepPicksOnText(oddsTextArea)
+    keepPicksOnText()
 
 
 # Function that deletes all widgets from the list
@@ -364,14 +404,7 @@ def rightFrameWork(rightFrame):
     global oddsTextArea
     global finalOddsTextArea
     global dollarEntry
-
-    # Place to add the option menu
-    # clicked = StringVar()
-    # # Corrected lambda to pass the selected week directly
-    # drop = OptionMenu(
-    #     rightFrame, clicked, *options, command=lambda selection: change(selection, root)
-    # )
-    # drop.pack()
+    global inputFrame
 
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
