@@ -68,3 +68,11 @@ August 23 Notes (Sam)
 
 - Line 63 on the GUI makes mention of a username but I don't see anywhere on the GUI where the user can input a username
 - for thing in reader should probably get fixed
+
+August 25 Notes (Matt and Sam)
+
+- Fix bugs
+  - Total odds not resetting after you clear the bets
+  - Can add onto a previous bet
+  - Make it so you cannot write into the "Total Odds: " box
+- Stupid ScrollBar

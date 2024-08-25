@@ -108,7 +108,6 @@ def calcOdds(
     # Button 1 is the opposite button
     # Button 2 is the button the user is pressing
     # Disable buttons so user can't make the same bet more than once
-    button2.config(bg="green")
     button1.config(state=DISABLED)
     button2.config(state=DISABLED)
 
@@ -400,14 +399,16 @@ def leftFrameWork(leftFrame, read, root):
                     widget["state"] = DISABLED
 
 def clearChoices():
-    curr_bets.clear
+    global curr_bets
+    global final_odds
+    final_odds=0
+    curr_bets=[]
     oddsTextArea.delete("1.0", "end")
     finalOddsTextArea.delete("1.0", "end")
     dollarEntry.delete(0, END)
     for widget in widgets:
         if isinstance(widget, Button):
             widget["state"] = NORMAL
-    
 
 
 def rightFrameWork(rightFrame):
@@ -432,11 +433,11 @@ def rightFrameWork(rightFrame):
     MoneyLabel.pack()
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
-    button = Button(inputFrame, text="Submit", command=submitBet)
+    submitButton = Button(inputFrame, text="Submit",width=7, command=submitBet)
     dollarEntry.pack(side="left")
-    button.pack(side="left")
-    clear_button = Button(rightFrame, text="Clear", command= lambda: clearChoices())
-    clear_button.pack()
+    submitButton.pack(side="left")
+    clear_button = Button(inputFrame, text="Clear",width=7, command= lambda: clearChoices())
+    clear_button.pack(side="left")
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
     widgets.append(oddsTextArea)
@@ -445,7 +446,7 @@ def rightFrameWork(rightFrame):
     widgets.append(MoneyLabel)
     widgets.append(entryAmt)
     widgets.append(dollarEntry)
-    widgets.append(button)
+    widgets.append(submitButton)
 
 
 def labelsButtons(root, csv_file):
