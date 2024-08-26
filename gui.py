@@ -84,7 +84,7 @@ def printPrevBets(selection, prevBets, root):
     global final_odds
     curr_bets = prevBets[selection - 1]
     final_odds = curr_bets[2]
-    change("Week 1", root)
+    change("Week 1", root, False)
 
 
 def calcOdds(
@@ -129,10 +129,10 @@ def calcOdds(
 
 
 # Function that will prevent the parlay from being cleared from view
-def keepPicksOnText(flag=False):
+def keepPicksOnText(flag=True):
     global final_odds
     # add a flag to see if function is called from calcOdds or change function
-    if not flag:
+    if flag == False:
         oddsTextArea.delete("1.0", "end")
         if len(curr_bets) == 0:
             finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
@@ -170,12 +170,15 @@ def keepPicksOnText(flag=False):
 
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
-def change(selection, root):
+def change(selection, root, flag=True):
     global test
     test = selection
     clearWidgets()
     labelsButtons(root, "lines.csv")
-    keepPicksOnText()
+    if flag == False:
+        keepPicksOnText(flag)
+    else:
+        keepPicksOnText(flag)
 
 
 # Function that deletes all widgets from the list
@@ -234,7 +237,6 @@ def submitBet():
 def storeBets(user_bets, final_odds, wager, winnings):
     all_bets = ""
     for bets in user_bets:
-        print(bets)
         # join the list of curr_bets together
         all_bets += f"{bets[0]} {bets[1]}: {bets[2]},"
 
