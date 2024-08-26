@@ -15,7 +15,7 @@ def main(username):
     global user
     user = username
     root = Tk()
-    root.geometry("975x650")
+    root.geometry("1300x650")
     root.title("Sportsbook")
     # List of different weeks to choose from for the option Menu
     options = [
@@ -45,13 +45,18 @@ def main(username):
     drop = OptionMenu(
         root, clicked, *options, command=lambda selection: change(selection, root)
     )
-    x=getBets()
-    betsOptions=[z+1 for z in range(len(x))]
-    betClicked=IntVar()
-    betDropDown=OptionMenu(root, betClicked, *betsOptions, command=lambda selection, prevBets=x:printPrevBets(selection,prevBets,root))
+    x = getBets()
+    betsOptions = [z + 1 for z in range(len(x))]
+    betClicked = IntVar()
+    betDropDown = OptionMenu(
+        root,
+        betClicked,
+        *betsOptions,
+        command=lambda selection, prevBets=x: printPrevBets(selection, prevBets, root),
+    )
     drop.pack()
 
-    prevBetLabel=Label(root, text="Previous Bets:")
+    prevBetLabel = Label(root, text="Previous Bets:")
     prevBetLabel.pack()
     betDropDown.pack()
 
@@ -59,24 +64,26 @@ def main(username):
     change(clicked.get(), root)
     root.mainloop()
 
+
 # Function that finds all the bets from the given username and makes a list of bets to be displayed later. Add bets to curr_bets maybe?
 def getBets():
-    lists=[]
+    lists = []
     with open("prevBetInfo.csv", "r", newline="", encoding="utf-8") as file:
-        reader=csv.reader(file)
-        counter=1
+        reader = csv.reader(file)
+        counter = 1
         for thing in reader:
-            if thing[0]==user:
-                thing[0]=counter
-                counter+=1
+            if thing[0] == user:
+                thing[0] = counter
+                counter += 1
                 lists.append(thing)
     return lists
 
-def printPrevBets(selection, prevBets,root):
+
+def printPrevBets(selection, prevBets, root):
     global curr_bets
     global final_odds
-    curr_bets=prevBets[selection-1]
-    final_odds=curr_bets[2]
+    curr_bets = prevBets[selection - 1]
+    final_odds = curr_bets[2]
     change("Week 1", root)
 
 
@@ -125,12 +132,12 @@ def calcOdds(
 def keepPicksOnText():
     global final_odds
     oddsTextArea.delete("1.0", "end")
-    if len(curr_bets)==0:
+    if len(curr_bets) == 0:
         finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
-    elif type(curr_bets[0])==int:
-        bet_string=curr_bets[1]
+    elif type(curr_bets[0]) == int:
+        bet_string = curr_bets[1]
         # First, split the string by commas to separate each bet
-        bets = bet_string.split(',')
+        bets = bet_string.split(",")
 
         # Iterate over each bet and extract the team name, bet type, and odds
         for bet in bets:
@@ -142,8 +149,10 @@ def keepPicksOnText():
                 oddsTextArea.insert(END, f"{team_name} {bet_type} {bet_odds}\n")
         finalOddsTextArea.delete(0.0, END)
         finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
-        finalOddsTextArea.insert(END,f"\n\nBet Amount: {curr_bets[3]} \nTo win: {curr_bets[4]}")
-    elif type(curr_bets[0][0])==str:
+        finalOddsTextArea.insert(
+            END, f"\n\nBet Amount: {curr_bets[3]} \nTo win: {curr_bets[4]}"
+        )
+    elif type(curr_bets[0][0]) == str:
         for bet in curr_bets:
             oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
         finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
@@ -230,11 +239,11 @@ def storeBets(user_bets, final_odds, wager, winnings):
 def leftFrameWork(leftFrame, read, root):
 
     button_count = 1
-    leftleftFrame=Frame(leftFrame)
-    leftrightFrame=Frame(leftFrame)
+    leftleftFrame = Frame(leftFrame)
+    leftrightFrame = Frame(leftFrame)
     widgets.append(leftleftFrame)
     widgets.append(leftrightFrame)
-    currFrame=leftleftFrame
+    currFrame = leftleftFrame
     for thing in range(2):
         titleFrame = Frame(currFrame)
         teams_title = Label(titleFrame, text="Teams", width=15)
@@ -251,7 +260,7 @@ def leftFrameWork(leftFrame, read, root):
         widgets.append(spread_title)
         widgets.append(spread_odds_title)
         widgets.append(ml_title)
-        currFrame=leftrightFrame
+        currFrame = leftrightFrame
     for x, index in enumerate(read):
         if index[-1] == test.split(" ")[1]:
             # Initialize Labels
@@ -391,10 +400,10 @@ def leftFrameWork(leftFrame, read, root):
             home_frame.pack()
             widgets.append(away_frame)
             widgets.append(home_frame)
-            if currFrame==leftleftFrame:
-                currFrame=leftrightFrame
+            if currFrame == leftleftFrame:
+                currFrame = leftrightFrame
             else:
-                currFrame=leftleftFrame
+                currFrame = leftleftFrame
             button_count += 4
 
     # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
@@ -404,11 +413,12 @@ def leftFrameWork(leftFrame, read, root):
                 if int(widget._name) == button_number and test == week:
                     widget["state"] = DISABLED
 
+
 def clearChoices():
     global curr_bets
     global final_odds
-    final_odds=0
-    curr_bets=[]
+    final_odds = 0
+    curr_bets = []
     oddsTextArea.delete("1.0", "end")
     finalOddsTextArea.delete("1.0", "end")
     dollarEntry.delete(0, END)
@@ -422,7 +432,7 @@ def rightFrameWork(rightFrame):
     global finalOddsTextArea
     global dollarEntry
     global inputFrame
-    spaceFrame=Frame(rightFrame,height=20)
+    spaceFrame = Frame(rightFrame, height=20)
     spaceFrame.pack()
     widgets.append(spaceFrame)
     frameTitle = Label(rightFrame, text="Your Odds Sir")
@@ -441,10 +451,12 @@ def rightFrameWork(rightFrame):
     MoneyLabel.pack()
     entryAmt = IntVar()
     dollarEntry = Entry(inputFrame, textvariable=entryAmt)
-    submitButton = Button(inputFrame, text="Submit",width=7, command=submitBet)
+    submitButton = Button(inputFrame, text="Submit", width=7, command=submitBet)
     dollarEntry.pack(side="left")
     submitButton.pack(side="left")
-    clear_button = Button(inputFrame, text="Clear",width=7, command= lambda: clearChoices())
+    clear_button = Button(
+        inputFrame, text="Clear", width=7, command=lambda: clearChoices()
+    )
     clear_button.pack(side="left")
     widgets.append(frameTitle)
     widgets.append(oddsFrame)
@@ -471,7 +483,6 @@ def labelsButtons(root, csv_file):
         rightFrameWork(rightFrame)
         widgets.append(leftFrame)
         widgets.append(rightFrame)
-
 
 
 # for debugging code to bypass login
