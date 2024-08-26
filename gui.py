@@ -97,6 +97,7 @@ def calcOdds(
     # grab global variables to update
     global total_odds
     global final_odds
+    global curr_odd
 
     # algroithm to convert american "+" or "-" odds to European decimal odds
     if odds[0] == "−":
@@ -437,6 +438,8 @@ def leftFrameWork(leftFrame, read, root):
 def clearChoices():
     global curr_bets
     global final_odds
+    global total_odds
+    total_odds = 1
     final_odds = 0
     curr_bets = []
     oddsTextArea.delete("1.0", "end")
