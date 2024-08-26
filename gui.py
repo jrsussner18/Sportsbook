@@ -125,37 +125,48 @@ def calcOdds(
     curr_bets.append([team_name, bet_name, odds])
 
     # call function to put odds in respective textbox widgets
-    keepPicksOnText()
+    keepPicksOnText(True)
 
 
 # Function that will prevent the parlay from being cleared from view
-def keepPicksOnText():
+def keepPicksOnText(flag=False):
     global final_odds
-    oddsTextArea.delete("1.0", "end")
-    if len(curr_bets) == 0:
-        finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
-    elif type(curr_bets[0]) == int:
-        bet_string = curr_bets[1]
-        # First, split the string by commas to separate each bet
-        bets = bet_string.split(",")
+    # add a flag to see if function is called from calcOdds or change function
+    if not flag:
+        oddsTextArea.delete("1.0", "end")
+        if len(curr_bets) == 0:
+            finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+        elif type(curr_bets[0]) == int:
+            bet_string = curr_bets[1]
+            # First, split the string by commas to separate each bet
+            bets = bet_string.split(",")
 
-        # Iterate over each bet and extract the team name, bet type, and odds
-        for bet in bets:
-            if bet:
-                parts = bet.split()
-                team_name = parts[0] + " " + parts[1]
-                bet_type = parts[2]
-                bet_odds = parts[3]
-                oddsTextArea.insert(END, f"{team_name} {bet_type} {bet_odds}\n")
+            # Iterate over each bet and extract the team name, bet type, and odds
+            for bet in bets:
+                if bet:
+                    parts = bet.split()
+                    team_name = parts[0] + " " + parts[1]
+                    bet_type = parts[2]
+                    bet_odds = parts[3]
+                    oddsTextArea.insert(END, f"{team_name} {bet_type} {bet_odds}\n")
+            finalOddsTextArea.delete(0.0, END)
+            finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+            finalOddsTextArea.insert(
+                END, f"\n\nBet Amount: {curr_bets[3]} \nTo win: {curr_bets[4]}"
+            )
+        elif type(curr_bets[0][0]) == str:
+            for bet in curr_bets:
+                oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
+            finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+    else:
+        oddsTextArea.delete("1.0", "end")
         finalOddsTextArea.delete(0.0, END)
         finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
-        finalOddsTextArea.insert(
-            END, f"\n\nBet Amount: {curr_bets[3]} \nTo win: {curr_bets[4]}"
-        )
-    elif type(curr_bets[0][0]) == str:
-        for bet in curr_bets:
-            oddsTextArea.insert(END, f"{bet[0]} {bet[1]}: {bet[2]}\n")
-        finalOddsTextArea.insert(END, f"Total Odds: {final_odds}")
+        for i in range(len(curr_bets)):
+            if type(curr_bets[i]) == list:
+                oddsTextArea.insert(
+                    END, f"{curr_bets[i][0]} {curr_bets[i][1]}: {curr_bets[i][2]}\n"
+                )
 
 
 # Function that changes the given week, clears any previous widgets, and adds new ones
@@ -201,7 +212,13 @@ def submitBet():
     finalOddsTextArea.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
     finalOddsTextArea.delete(1.11, END)
 
-    storeBets(curr_bets, final_odds, wager, winnings)
+    # make sure that only the current user bets are sent to the storeBets function
+    user_bets = []
+    for i in range(len(curr_bets)):
+        if type(curr_bets[i]) == list:
+            user_bets.append(curr_bets[i])
+
+    storeBets(user_bets, final_odds, wager, winnings)
     # reset all betting odds
     curr_bets = []
     total_odds = 1
@@ -217,6 +234,7 @@ def submitBet():
 def storeBets(user_bets, final_odds, wager, winnings):
     all_bets = ""
     for bets in user_bets:
+        print(bets)
         # join the list of curr_bets together
         all_bets += f"{bets[0]} {bets[1]}: {bets[2]},"
 
