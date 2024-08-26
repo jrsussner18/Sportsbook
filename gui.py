@@ -15,7 +15,7 @@ def main(username):
     global user
     user = username
     root = Tk()
-    root.geometry("750x500")
+    root.geometry("975x650")
     root.title("Sportsbook")
     # List of different weeks to choose from for the option Menu
     options = [
@@ -58,7 +58,6 @@ def main(username):
     # Initialize with the first week's data
     change(clicked.get(), root)
     root.mainloop()
-
 
 # Function that finds all the bets from the given username and makes a list of bets to be displayed later. Add bets to curr_bets maybe?
 def getBets():
@@ -229,24 +228,30 @@ def storeBets(user_bets, final_odds, wager, winnings):
 
 
 def leftFrameWork(leftFrame, read, root):
-    titleFrame = Frame(leftFrame)
-    teams_title = Label(titleFrame, text="Teams", width=15)
-    spread_title = Label(titleFrame, text="Spread", width=10)
-    spread_odds_title = Label(titleFrame, text="Spread odds", width=10)
-    ml_title = Label(titleFrame, text="Money line", width=10)
-    titleFrame.pack()
-    teams_title.pack(side=LEFT)
-    spread_title.pack(side=LEFT)
-    spread_odds_title.pack(side=LEFT)
-    ml_title.pack(side=LEFT)
-    widgets.append(titleFrame)
-    widgets.append(teams_title)
-    widgets.append(spread_title)
-    widgets.append(spread_odds_title)
-    widgets.append(ml_title)
 
     button_count = 1
-
+    leftleftFrame=Frame(leftFrame)
+    leftrightFrame=Frame(leftFrame)
+    widgets.append(leftleftFrame)
+    widgets.append(leftrightFrame)
+    currFrame=leftleftFrame
+    for thing in range(2):
+        titleFrame = Frame(currFrame)
+        teams_title = Label(titleFrame, text="Teams", width=15)
+        spread_title = Label(titleFrame, text="Spread", width=10)
+        spread_odds_title = Label(titleFrame, text="Spread odds", width=10)
+        ml_title = Label(titleFrame, text="Money line", width=10)
+        titleFrame.pack()
+        teams_title.pack(side=LEFT)
+        spread_title.pack(side=LEFT)
+        spread_odds_title.pack(side=LEFT)
+        ml_title.pack(side=LEFT)
+        widgets.append(titleFrame)
+        widgets.append(teams_title)
+        widgets.append(spread_title)
+        widgets.append(spread_odds_title)
+        widgets.append(ml_title)
+        currFrame=leftrightFrame
     for x, index in enumerate(read):
         if index[-1] == test.split(" ")[1]:
             # Initialize Labels
@@ -254,8 +259,8 @@ def leftFrameWork(leftFrame, read, root):
             spread_odds_home_button_count = button_count + 2
             Ml_odds_away_button_count = button_count + 1
             ML_odds_home_button_count = button_count + 3
-            away_frame = Frame(leftFrame)
-            home_frame = Frame(leftFrame)
+            away_frame = Frame(currFrame)
+            home_frame = Frame(currFrame)
             away = Label(away_frame, text=index[0], width=15)
             home = Label(home_frame, text=index[1], width=15)
             spread_away = Label(
@@ -358,6 +363,8 @@ def leftFrameWork(leftFrame, read, root):
                 )
             )
             # Pack Buttons and add them to a list(widgets) to be deleted when changing weeks
+            leftleftFrame.pack(side=LEFT)
+            leftrightFrame.pack(side=LEFT)
             away.pack(side="left")
             widgets.append(away)
             home.pack(side="left")
@@ -380,15 +387,14 @@ def leftFrameWork(leftFrame, read, root):
 
             ml_home.pack(side="left")
             widgets.append(ml_home)
-            # Space Frame to put a small gap between games
-            spaceFrame = Frame(root, height=100)
-            spaceFrame.pack()
             away_frame.pack()
             home_frame.pack()
             widgets.append(away_frame)
             widgets.append(home_frame)
-            widgets.append(spaceFrame)
-
+            if currFrame==leftleftFrame:
+                currFrame=leftrightFrame
+            else:
+                currFrame=leftleftFrame
             button_count += 4
 
     # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
@@ -416,7 +422,9 @@ def rightFrameWork(rightFrame):
     global finalOddsTextArea
     global dollarEntry
     global inputFrame
-
+    spaceFrame=Frame(rightFrame,height=20)
+    spaceFrame.pack()
+    widgets.append(spaceFrame)
     frameTitle = Label(rightFrame, text="Your Odds Sir")
     frameTitle.pack()
     oddsFrame = Frame(rightFrame)
@@ -463,6 +471,7 @@ def labelsButtons(root, csv_file):
         rightFrameWork(rightFrame)
         widgets.append(leftFrame)
         widgets.append(rightFrame)
+
 
 
 # for debugging code to bypass login
