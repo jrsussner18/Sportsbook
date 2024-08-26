@@ -76,3 +76,9 @@ August 25 Notes (Matt and Sam)
   - Can add onto a previous bet
   - Make it so you cannot write into the "Total Odds: " box
 - Stupid ScrollBar
+
+August 26 Notes (Sam and Jake)
+
+- Bugs to fix
+  - totals odds doesn't reset after clear button is clicked
+  - cannot see new bet when looking at a previous bet
