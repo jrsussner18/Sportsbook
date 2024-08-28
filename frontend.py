@@ -10,6 +10,7 @@ widgets = []  # List to store all widgets to be cleared in clearWidgets
 curr_bets = []  # List to store all the current bets of a parlay
 disabled_buttons = {}  # Dictionary to store the disabled buttons number and week
 
+
 # Main Function that sets up the initial screen and pulls and stores previous bets from the given username
 def main(username):
     global user
@@ -44,7 +45,10 @@ def main(username):
     clicked_week.set(week_options[0])
     # Corrected lambda to pass the selected week directly
     drop = OptionMenu(
-        root, clicked_week, *week_options, command=lambda selection: change(selection, root)
+        root,
+        clicked_week,
+        *week_options,
+        command=lambda selection: change(selection, root),
     )
     prev_bets = getBets()
     bets_options = [prev_bet_index + 1 for prev_bet_index in range(len(prev_bets))]
@@ -53,7 +57,9 @@ def main(username):
         root,
         bet_clicked,
         *bets_options,
-        command=lambda selection, prev_bets=prev_bets: printPrevBets(selection, prev_bets, root),
+        command=lambda selection, prev_bets=prev_bets: printPrevBets(
+            selection, prev_bets, root
+        ),
     )
     drop.pack()
 
@@ -90,7 +96,13 @@ def printPrevBets(selection, prevBets, root):
 
 
 def calcOdds(
-    odds, opp_button, clicked_button, team_name, bet_name, button_number1, button_number2
+    odds,
+    opp_button,
+    clicked_button,
+    team_name,
+    bet_name,
+    button_number1,
+    button_number2,
 ):
 
     # Make sure you are printing multiple final odds
@@ -167,7 +179,8 @@ def keepPicksOnText(flag=True):
         for index in range(len(curr_bets)):
             if type(curr_bets[index]) == list:
                 odds_text_area.insert(
-                    END, f"{curr_bets[index][0]} {curr_bets[index][1]}: {curr_bets[index][2]}\n"
+                    END,
+                    f"{curr_bets[index][0]} {curr_bets[index][1]}: {curr_bets[index][2]}\n",
                 )
 
 
@@ -207,7 +220,9 @@ def submitBet():
     # delete previous made entrys
     dollar_entry.delete("0", END)
     odds_text_area.delete(0.0, END)
-    final_odds_text_area.delete(1.11, END)  # deletes the odds after the text "Total Odds:"
+    final_odds_text_area.delete(
+        1.11, END
+    )  # deletes the odds after the text "Total Odds:"
     final_odds_text_area.delete(1.11, END)
 
     # make sure that only the current user bets are sent to the storeBets function
