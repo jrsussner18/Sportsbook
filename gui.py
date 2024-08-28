@@ -83,6 +83,7 @@ def getBets():
 def printPrevBets(selection, prevBets, root):
     global curr_bets
     global final_odds
+    clearChoices()
     curr_bets = prevBets[selection - 1]
     final_odds = curr_bets[2]
     change("Week 1", root, False)
@@ -275,7 +276,7 @@ def leftFrameWork(left_frame, read, root):
         widgets.append(ml_title)
         curr_frame = left_right_frame
     for x, index in enumerate(read):
-        if index[-1] == test.split(" ")[1]:
+        if index[-1] == week_selection.split(" ")[1]:
             # Initialize Labels
             spread_odds_away_button_count = button_count
             spread_odds_home_button_count = button_count + 2
@@ -423,7 +424,7 @@ def leftFrameWork(left_frame, read, root):
     for widget in widgets:
         if isinstance(widget, Button):
             for button_number, week in disabled_buttons.items():
-                if int(widget._name) == button_number and test == week:
+                if int(widget._name) == button_number and week_selection == week:
                     widget["state"] = DISABLED
 
 
@@ -482,7 +483,6 @@ def rightFrameWork(right_frame):
 
 
 def labelsButtons(root, csv_file):
-    global test
     with open(csv_file, "r", encoding="utf-8") as file:
         read = csv.reader(file)
         next(read)
@@ -498,4 +498,4 @@ def labelsButtons(root, csv_file):
 
 
 # for debugging code to bypass login
-main("test")
+# main("test")
