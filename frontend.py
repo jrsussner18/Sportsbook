@@ -1,7 +1,7 @@
 # Libaries used to import
 from tkinter import *
 import csv
-import backend
+import utils
 
 # Creating and Labeling the GUI window
 # Global variables
@@ -514,4 +514,4 @@ def labelsButtons(root, csv_file):
 
 
 # for debugging code to bypass login
-# main("test")
+main("test")
