@@ -2,7 +2,6 @@
 from tkinter import *
 import csv
 
-# Creating and Labeling the GUI window
 # Global variables
 total_odds = 1  # Used to keep track of the total odds of a parlay
 final_odds = ""  # Used to keep track of the + or - odds of total_odds
@@ -266,23 +265,30 @@ def storeBets(user_bets, final_odds, wager, winnings):
             ]
         )
 
+<<<<<<< Updated upstream
 
 # Function to keep buttons disabled
 def disableButtons():
     # Iterates through the buttons and checks if their week and number are already in the disabled_buttons dictionary
+=======
+# Function that makes sure that the disabled buttons stay disabled when changing weeks
+def disableButtons():
+>>>>>>> Stashed changes
     for widget in widgets:
         if isinstance(widget, Button):
             for button_number, week in disabled_buttons.items():
                 if int(widget._name) == button_number and week_selection == week:
                     widget["state"] = DISABLED
 
-
+# Function that passes in a frame that is associated with the left side and adds all the needed widgets
 def leftFrameWork(left_frame, read, root):
     button_count = 1
+    # Creating the frames for adding the games on 2 different lists
     left_left_frame = Frame(left_frame)
     left_right_frame = Frame(left_frame)
     widgets.append(left_left_frame)
     widgets.append(left_right_frame)
+    # Going through and creating the labels for what each button is
     curr_frame = left_left_frame
     for thing in range(2):
         titleFrame = Frame(curr_frame)
@@ -300,7 +306,7 @@ def leftFrameWork(left_frame, read, root):
         widgets.append(spread_title)
         widgets.append(spread_odds_title)
         widgets.append(ml_title)
-        curr_frame = left_right_frame
+    # For loop to go through and create all the buttons for betting on games on the left side of the window
     for x, index in enumerate(read):
         if index[-1] == week_selection.split(" ")[1]:
             # Initialize Labels
@@ -440,6 +446,7 @@ def leftFrameWork(left_frame, read, root):
             home_frame.pack()
             widgets.append(away_frame)
             widgets.append(home_frame)
+            # Changing the current frame based on what the last one is
             if curr_frame == left_left_frame:
                 curr_frame = left_right_frame
             else:
@@ -448,27 +455,27 @@ def leftFrameWork(left_frame, read, root):
 
     disableButtons()
 
-
+# Function that clears the bets currently on display/been selected
 def clearChoices():
-    global curr_bets
-    global final_odds
-    global total_odds
+    # Global variables to reset all bets and odds
+    global curr_bets, final_odds, total_odds
     total_odds = 1
     final_odds = 0
     curr_bets = []
+    # Deleting everything in the different text areas and entry amount
     odds_text_area.delete("1.0", "end")
     final_odds_text_area.delete("1.0", "end")
     dollar_entry.delete(0, END)
+    # Reinstating any buttons that have been disabled
     for widget in widgets:
         if isinstance(widget, Button):
             widget["state"] = NORMAL
 
-
+# Function that passes in a frame that is associated with the right side and adds all the needed widgets
 def rightFrameWork(right_frame):
-    global odds_text_area
-    global final_odds_text_area
-    global dollar_entry
-    global input_frame
+    # Global variables for different widgets to be accessed in different areas
+    global odds_text_area, final_odds_text_area, dollar_entry, input_frame
+    # Creating different widgets for the odds display
     frame_title = Label(right_frame, text="Your Odds Sir")
     frame_title.pack()
     odds_frame = Frame(right_frame)
@@ -483,6 +490,7 @@ def rightFrameWork(right_frame):
         input_frame, text="How many dollars would you like to put in?", anchor="se"
     )
     money_label.pack()
+    # Int Var for the amount the user inputs to bet
     entry_amt = IntVar()
     dollar_entry = Entry(input_frame, textvariable=entry_amt)
     submit_button = Button(input_frame, text="Submit", width=7, command=submitBet)
@@ -492,6 +500,7 @@ def rightFrameWork(right_frame):
         input_frame, text="Clear", width=7, command=lambda: clearChoices()
     )
     clear_button.pack(side="left")
+    # Adding all the widgets to the widgets list so that they can be cleared later
     widgets.append(frame_title)
     widgets.append(odds_frame)
     widgets.append(odds_text_area)
@@ -502,21 +511,21 @@ def rightFrameWork(right_frame):
     widgets.append(dollar_entry)
     widgets.append(submit_button)
 
-
+# Labels the buttons with the data from lines.csv and starts the process of creating the widgets
 def labelsButtons(root, csv_file):
+    # Opening the file
     with open(csv_file, "r", encoding="utf-8") as file:
         read = csv.reader(file)
+        # Ignoring the first line of lines.csv as it is a label line to understand what each column is
         next(read)
-        # Add Labels and then packing and appending them to a list(widgets) so that they can be deleted later
+        # Creating the 2 different frames for the right and left side and packing them so that they are side by side
         left_frame = Frame(root)
         right_frame = Frame(root)
         left_frame.pack(side=LEFT, fill=BOTH, expand=True)
         right_frame.pack(side=LEFT, fill=BOTH, expand=True)
+        # Calling leftFrameWork and rightFrameWork so that each one can be built
         leftFrameWork(left_frame, read, root)
         rightFrameWork(right_frame)
+        # Adding the left frame and right frame to widgets so that they can be cleared when calling change
         widgets.append(left_frame)
         widgets.append(right_frame)
-
-
-# for debugging code to bypass login
-main("test")
