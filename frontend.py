@@ -1,7 +1,6 @@
 # Libaries used to import
 from tkinter import *
 import csv
-import utils
 
 # Creating and Labeling the GUI window
 # Global variables
