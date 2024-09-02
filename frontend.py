@@ -95,7 +95,8 @@ def printPrevBets(selection, prevBets, root):
     change("Week 1", root, False)
 
 
-def calcOdds(
+# Function that calculates odds and disables buttons
+def oddsButtonClicked(
     odds,
     opp_button,
     clicked_button,
@@ -146,7 +147,7 @@ def calcOdds(
 # Function that will prevent the parlay from being cleared from view
 def keepPicksOnText(flag=True):
     global final_odds
-    # add a flag to see if function is called from calcOdds or change function
+    # add a flag to see if function is called from oddsButtonClicked or change function
     if flag == False:
         odds_text_area.delete("1.0", "end")
         if len(curr_bets) == 0:
@@ -266,8 +267,9 @@ def storeBets(user_bets, final_odds, wager, winnings):
         )
 
 
+# Function to keep buttons disabled
 def disableButtons():
-    # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
+    # Iterates through the buttons and checks if their week and number are already in the disabled_buttons dictionary
     for widget in widgets:
         if isinstance(widget, Button):
             for button_number, week in disabled_buttons.items():
@@ -354,7 +356,7 @@ def leftFrameWork(left_frame, read, root):
                     3
                 ], opp_button=spread_odds_home, curr_button=spread_odds_away, team_name=index[
                     0
-                ], bet_name="spread", away_button_number=spread_odds_away_button_count, home_button_number=spread_odds_home_button_count: calcOdds(
+                ], bet_name="spread", away_button_number=spread_odds_away_button_count, home_button_number=spread_odds_home_button_count: oddsButtonClicked(
                     odds,
                     opp_button,
                     curr_button,
@@ -369,7 +371,7 @@ def leftFrameWork(left_frame, read, root):
                     4
                 ], opp_button=ml_home, curr_button=ml_away, team_name=index[
                     0
-                ], bet_name="ML", away_button_number=Ml_odds_away_button_count, home_button_number=ML_odds_home_button_count: calcOdds(
+                ], bet_name="ML", away_button_number=Ml_odds_away_button_count, home_button_number=ML_odds_home_button_count: oddsButtonClicked(
                     odds,
                     opp_button,
                     curr_button,
@@ -384,7 +386,7 @@ def leftFrameWork(left_frame, read, root):
                     6
                 ], opp_button=spread_odds_away, curr_button=spread_odds_home, team_name=index[
                     1
-                ], bet_name="spread", home_button_number=spread_odds_home_button_count, away_button_number=spread_odds_away_button_count: calcOdds(
+                ], bet_name="spread", home_button_number=spread_odds_home_button_count, away_button_number=spread_odds_away_button_count: oddsButtonClicked(
                     odds,
                     opp_button,
                     curr_button,
@@ -399,7 +401,7 @@ def leftFrameWork(left_frame, read, root):
                     7
                 ], opp_button=ml_away, curr_button=ml_home, team_name=index[
                     1
-                ], bet_name="ML", home_button_number=ML_odds_home_button_count, away_button_number=Ml_odds_away_button_count: calcOdds(
+                ], bet_name="ML", home_button_number=ML_odds_home_button_count, away_button_number=Ml_odds_away_button_count: oddsButtonClicked(
                     odds,
                     opp_button,
                     curr_button,
