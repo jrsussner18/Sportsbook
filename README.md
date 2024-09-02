@@ -24,6 +24,18 @@ This project involves creating an NFL Sportsbook application in Python that util
 4. Enter in your personal username and password to store your bets.
 5. Bet Away!
 
+
+## Reflection
+#### What we learned:
+
+- Developed a deeper understanding with tkinter.
+- Got a gauge of frontend vs. backend.
+- Grew understanding of how to effectively use Github.
+
+#### What we could improve on:
+
+- Organization of code, seperating frontend vs backend applications.
+
 ## Authors
 
 - Matthew Gathman - [LinkedIn](https://www.linkedin.com/in/matt-gathman/) - matthewdgathman@gmail.com

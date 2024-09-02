@@ -265,20 +265,16 @@ def storeBets(user_bets, final_odds, wager, winnings):
             ]
         )
 
-<<<<<<< Updated upstream
 
 # Function to keep buttons disabled
 def disableButtons():
     # Iterates through the buttons and checks if their week and number are already in the disabled_buttons dictionary
-=======
-# Function that makes sure that the disabled buttons stay disabled when changing weeks
-def disableButtons():
->>>>>>> Stashed changes
     for widget in widgets:
         if isinstance(widget, Button):
             for button_number, week in disabled_buttons.items():
                 if int(widget._name) == button_number and week_selection == week:
                     widget["state"] = DISABLED
+
 
 # Function that passes in a frame that is associated with the left side and adds all the needed widgets
 def leftFrameWork(left_frame, read, root):
@@ -455,6 +451,7 @@ def leftFrameWork(left_frame, read, root):
 
     disableButtons()
 
+
 # Function that clears the bets currently on display/been selected
 def clearChoices():
     # Global variables to reset all bets and odds
@@ -470,6 +467,7 @@ def clearChoices():
     for widget in widgets:
         if isinstance(widget, Button):
             widget["state"] = NORMAL
+
 
 # Function that passes in a frame that is associated with the right side and adds all the needed widgets
 def rightFrameWork(right_frame):
@@ -510,6 +508,7 @@ def rightFrameWork(right_frame):
     widgets.append(entry_amt)
     widgets.append(dollar_entry)
     widgets.append(submit_button)
+
 
 # Labels the buttons with the data from lines.csv and starts the process of creating the widgets
 def labelsButtons(root, csv_file):
