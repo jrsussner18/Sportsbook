@@ -82,3 +82,8 @@ August 26 Notes (Sam and Jake)
 - Bugs to fix
   - totals odds doesn't reset after clear button is clicked
   - cannot see new bet when looking at a previous bet
+
+September 2 Notes
+
+- Add comments and clean up code
+- Create .readme
