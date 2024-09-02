@@ -266,6 +266,15 @@ def storeBets(user_bets, final_odds, wager, winnings):
         )
 
 
+def disableButtons():
+    # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
+    for widget in widgets:
+        if isinstance(widget, Button):
+            for button_number, week in disabled_buttons.items():
+                if int(widget._name) == button_number and week_selection == week:
+                    widget["state"] = DISABLED
+
+
 def leftFrameWork(left_frame, read, root):
     button_count = 1
     left_left_frame = Frame(left_frame)
@@ -435,12 +444,7 @@ def leftFrameWork(left_frame, read, root):
                 curr_frame = left_left_frame
             button_count += 4
 
-    # once the widgets are made disable buttons that are still in the disabled_buttons dictionary
-    for widget in widgets:
-        if isinstance(widget, Button):
-            for button_number, week in disabled_buttons.items():
-                if int(widget._name) == button_number and week_selection == week:
-                    widget["state"] = DISABLED
+    disableButtons()
 
 
 def clearChoices():
