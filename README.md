@@ -10,7 +10,7 @@ This project involves creating an NFL Sportsbook application in Python that util
 2. Ensure you have Python installed on your system.
 3. Install the required libraries by running:
 ``` http
-  pip install tkinter
+  pip install tk
 ```
 
 ## Execution
