@@ -1,13 +1,15 @@
+# Import different needed libraries and python files
 from tkinter import *
 import csv
 import frontend
 
+# Getting the usernames and passwords and putting them into a list
 with open("loginInfo.csv", "r", encoding="utf-8") as file:
     read = csv.reader(file)
     usernames = next(read)
     passwords = next(read)
 
-
+# Function that checks if the username and password are correct and going to frontend.py if they are
 def checkLogIn(username, password):
     for user, word in zip(usernames, passwords):
         if user == username and word == password:
@@ -15,7 +17,7 @@ def checkLogIn(username, password):
             frontend.main(username)
             return
 
-
+# Adding new usernames and password and returning if the username already exists
 def newUser(username, password):
     if username in usernames:
         return
@@ -25,7 +27,7 @@ def newUser(username, password):
         passwords.append(password)
         csvWriter.writerows([usernames, passwords])
 
-
+# Creating all the widgets for the interface
 root = Tk()
 passLabel = Label(root, text="Enter Username and Password:")
 usernameFrame = Frame(root)
